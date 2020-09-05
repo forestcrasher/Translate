@@ -78,14 +78,22 @@
 		E63782C22503DDA40001321D /* Translate */ = {
 			isa = PBXGroup;
 			children = (
+				E63782DA2503F1D10001321D /* Resources */,
 				E63782C32503DDA40001321D /* AppDelegate.swift */,
 				E63782C72503DDA40001321D /* ViewController.swift */,
 				E63782C92503DDA40001321D /* Main.storyboard */,
-				E63782CE2503DDAC0001321D /* LaunchScreen.storyboard */,
-				E63782CC2503DDAC0001321D /* Assets.xcassets */,
 				E63782D12503DDAC0001321D /* Info.plist */,
 			);
 			path = Translate;
+			sourceTree = "<group>";
+		};
+		E63782DA2503F1D10001321D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E63782CC2503DDAC0001321D /* Assets.xcassets */,
+				E63782CE2503DDAC0001321D /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
