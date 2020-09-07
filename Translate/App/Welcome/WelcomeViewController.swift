@@ -9,8 +9,10 @@ import UIKit
 
 class WelcomeViewController: UIViewController {
 
+    // MARK: - ViewModel
     weak var viewModel: WelcomeViewModel!
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
     }

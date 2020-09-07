@@ -8,4 +8,7 @@
 import Foundation
 
 class WelcomeViewModel {
+
+    // MARK: - Dependencies
+    weak var coordinator: WelcomeCoordinator!
 }

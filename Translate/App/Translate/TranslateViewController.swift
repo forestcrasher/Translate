@@ -9,9 +9,14 @@ import UIKit
 
 class TranslateViewController: UIViewController {
 
+    // MARK: - ViewModel
     weak var viewModel: TranslateViewModel!
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "Translate"
+        view.backgroundColor = UIColor.white
     }
 }

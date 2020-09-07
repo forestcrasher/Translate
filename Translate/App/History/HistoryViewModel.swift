@@ -8,4 +8,8 @@
 import Foundation
 
 class HistoryViewModel {
+
+    // MARK: - Dependencies
+    weak var historyService: HistoryService!
+    weak var coordinator: HistoryCoordinator!
 }
