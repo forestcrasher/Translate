@@ -13,5 +13,6 @@ target 'Translate' do
   pod 'R.swift'
   pod 'Swinject'
   pod 'SwiftLint'
+  pod 'Cartography', '~> 3.0'
   
 end
