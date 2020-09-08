@@ -10,7 +10,16 @@ import UIKit
 class WelcomeViewController: UIViewController {
 
     // MARK: - ViewModel
-    weak var viewModel: WelcomeViewModel!
+    var viewModel: WelcomeViewModel!
+
+    // MARK: - Actions
+    @IBAction private func touchTranslateButton() {
+        self.viewModel.showTranslate()
+    }
+
+    @IBAction func touchHistoryButton() {
+        viewModel.showHistory()
+    }
 
     // MARK: - Lifecycle
     override func viewDidLoad() {

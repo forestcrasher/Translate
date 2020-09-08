@@ -11,23 +11,27 @@ import UIKit
 class HistoryCoordinator: Coordinator {
 
     // MARK: - Public
-    var navigationController: UINavigationController
+    var rootViewController: UIViewController?
 
-    init(container: Container, navigationController: UINavigationController = UINavigationController()) {
+    init(container: Container) {
         self.container = container
-        self.navigationController = navigationController
     }
 
     func start() {
         let historyViewModel = HistoryViewModel()
         historyViewModel.historyService = container.resolve(HistoryService.self)
         historyViewModel.coordinator = self
+
         let historyViewController = HistoryViewController()
         let tabBarItemImage = UIImage(systemName: "book")
         historyViewController.tabBarItem = UITabBarItem(title: "History", image: tabBarItemImage, selectedImage: tabBarItemImage)
-        navigationController.viewControllers = [historyViewController]
+
+        navigationController = UINavigationController()
+        navigationController?.viewControllers = [historyViewController]
+        rootViewController = navigationController
     }
 
     // MARK: - Private
     private var container: Container
+    private var navigationController: UINavigationController?
 }

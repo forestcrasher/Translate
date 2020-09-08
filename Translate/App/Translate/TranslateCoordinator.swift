@@ -11,11 +11,10 @@ import UIKit
 class TranslateCoordinator: Coordinator {
 
     // MARK: - Public
-    var navigationController: UINavigationController
+    var rootViewController: UIViewController?
 
-    init(container: Container, navigationController: UINavigationController = UINavigationController()) {
+    init(container: Container) {
         self.container = container
-        self.navigationController = navigationController
     }
 
     func start() {
@@ -23,12 +22,17 @@ class TranslateCoordinator: Coordinator {
         translateViewModel.translateService = container.resolve(TranslateService.self)
         translateViewModel.historyService = container.resolve(HistoryService.self)
         translateViewModel.coordinator = self
+
         let translateViewController = TranslateViewController()
         let tabBarItemImage = UIImage(systemName: "globe")
         translateViewController.tabBarItem = UITabBarItem(title: "Translate", image: tabBarItemImage, selectedImage: tabBarItemImage)
-        navigationController.viewControllers = [translateViewController]
+
+        navigationController = UINavigationController()
+        navigationController?.viewControllers = [translateViewController]
+        rootViewController = navigationController
     }
 
     // MARK: - Private
     private var container: Container
+    private var navigationController: UINavigationController?
 }

@@ -10,7 +10,7 @@ import UIKit
 class HistoryViewController: UIViewController {
 
     // MARK: - ViewModel
-    weak var viewModel: HistoryViewModel!
+    var viewModel: HistoryViewModel!
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
