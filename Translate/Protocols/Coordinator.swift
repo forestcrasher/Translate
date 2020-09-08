@@ -1,0 +1,15 @@
+//
+//  Coordinator.swift
+//  Translate
+//
+//  Created by Anton Pryakhin on 07.09.2020.
+//
+
+import UIKit
+
+protocol Coordinator {
+
+    var navigationController: UINavigationController { get set }
+
+    func start()
+}
