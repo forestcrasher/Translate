@@ -11,19 +11,20 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    var coordinator: Coordinator?
     var window: UIWindow?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let container = Container { container in
-            container.register(TranslateService.self) { _ in TranslateService() }
-            container.register(HistoryService.self) { _ in HistoryService() }
-        }
+    let container = Container { container in
+        container.register(TranslateService.self) { _ in TranslateService() }
+        container.register(HistoryService.self) { _ in HistoryService() }
+    }
 
-        let coordinator = WelcomeCoordinator(container: container)
-        coordinator.start()
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        coordinator = AppCoordinator(container: container)
+        coordinator?.start()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = coordinator.navigationController
+        window?.rootViewController = coordinator?.rootViewController
         window?.makeKeyAndVisible()
 
         return true

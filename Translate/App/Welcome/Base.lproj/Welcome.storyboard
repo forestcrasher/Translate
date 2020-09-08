@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -12,15 +12,107 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="Translate" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AI5-Bt-M0h">
+                                <rect key="frame" x="0.0" y="43.999999999999993" width="375" height="122.33333333333331"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="Kn4-Bn-zAm">
+                                <rect key="frame" x="55.666666666666657" y="166.33333333333334" width="264" height="263.33333333333326"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="264" id="ieQ-bd-MbM"/>
+                                </constraints>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4iL-Uz-olZ">
+                                <rect key="frame" x="0.0" y="429.66666666666669" width="375" height="40.666666666666686"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Translate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0PT-n5-Z1L">
+                                <rect key="frame" x="16" y="470.33333333333331" width="343" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="imk-De-K05"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="InK-bS-tNr">
+                                <rect key="frame" x="16" y="520.33333333333337" width="343" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Dq7-nk-XvI"/>
+                                </constraints>
+                                <string key="text">App for translating words and 
+sentences based on Yandex.Cloud</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hi2-rD-YLb">
+                                <rect key="frame" x="0.0" y="564.33333333333337" width="375" height="81.666666666666629"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dGH-hr-u8B" customClass="ShapeButton" customModule="Translate" customModuleProvider="target">
+                                <rect key="frame" x="16" y="646" width="343" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="RLp-nZ-hBn"/>
+                                </constraints>
+                                <state key="normal" title="Translate"/>
+                                <connections>
+                                    <action selector="touchTranslateButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="5qP-mb-kLj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="thY-De-7wR" customClass="ShapeButton" customModule="Translate" customModuleProvider="target">
+                                <rect key="frame" x="16" y="712" width="343" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="loJ-Bc-eCR"/>
+                                </constraints>
+                                <state key="normal" title="History"/>
+                                <connections>
+                                    <action selector="touchHistoryButton" destination="BYZ-38-t0r" eventType="touchUpInside" id="emk-br-XXs"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="0PT-n5-Z1L" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="4dz-KB-vcx"/>
+                            <constraint firstItem="hi2-rD-YLb" firstAttribute="top" secondItem="InK-bS-tNr" secondAttribute="bottom" id="5Z6-PH-b7D"/>
+                            <constraint firstItem="Kn4-Bn-zAm" firstAttribute="top" secondItem="AI5-Bt-M0h" secondAttribute="bottom" id="7TE-6M-p0p"/>
+                            <constraint firstItem="hi2-rD-YLb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9nV-eY-cli"/>
+                            <constraint firstItem="dGH-hr-u8B" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="AYM-Ei-eAb"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0PT-n5-Z1L" secondAttribute="trailing" constant="16" id="AdV-gy-JTB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4iL-Uz-olZ" secondAttribute="trailing" id="Czf-JT-O6n"/>
+                            <constraint firstItem="4iL-Uz-olZ" firstAttribute="top" secondItem="Kn4-Bn-zAm" secondAttribute="bottom" id="ErE-8p-AcI"/>
+                            <constraint firstItem="AI5-Bt-M0h" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Gnt-Be-zDO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="AI5-Bt-M0h" secondAttribute="trailing" id="Mow-rg-TM6"/>
+                            <constraint firstItem="hi2-rD-YLb" firstAttribute="height" secondItem="AI5-Bt-M0h" secondAttribute="height" multiplier="2:3" id="MxG-AX-Vxb"/>
+                            <constraint firstItem="AI5-Bt-M0h" firstAttribute="height" secondItem="6Tk-OE-BBY" secondAttribute="height" multiplier="1:6" id="NYb-m8-Mmx"/>
+                            <constraint firstItem="InK-bS-tNr" firstAttribute="top" secondItem="0PT-n5-Z1L" secondAttribute="bottom" constant="16" id="Ohs-5a-dU9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="thY-De-7wR" secondAttribute="bottom" constant="16" id="OlR-qR-sC0"/>
+                            <constraint firstItem="Kn4-Bn-zAm" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RIA-VZ-ZSo"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hi2-rD-YLb" secondAttribute="trailing" id="TTN-Ys-ema"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="InK-bS-tNr" secondAttribute="trailing" constant="16" id="VN4-y7-2I3"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="thY-De-7wR" secondAttribute="trailing" constant="16" id="Vyc-Td-WtG"/>
+                            <constraint firstItem="InK-bS-tNr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="YX0-mt-5z2"/>
+                            <constraint firstItem="dGH-hr-u8B" firstAttribute="top" secondItem="hi2-rD-YLb" secondAttribute="bottom" id="hB7-Re-1Jc"/>
+                            <constraint firstItem="AI5-Bt-M0h" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="lTb-1O-m9X"/>
+                            <constraint firstItem="0PT-n5-Z1L" firstAttribute="top" secondItem="4iL-Uz-olZ" secondAttribute="bottom" id="og4-KC-P0k"/>
+                            <constraint firstItem="4iL-Uz-olZ" firstAttribute="height" secondItem="AI5-Bt-M0h" secondAttribute="height" multiplier="1:3" id="sWE-29-bmO"/>
+                            <constraint firstItem="thY-De-7wR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="t8U-pl-owB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dGH-hr-u8B" secondAttribute="trailing" constant="16" id="tSj-fG-qCh"/>
+                            <constraint firstItem="thY-De-7wR" firstAttribute="top" secondItem="dGH-hr-u8B" secondAttribute="bottom" constant="16" id="uHM-PZ-Ycp"/>
+                            <constraint firstItem="4iL-Uz-olZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="xwL-yJ-ZZy"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="126"/>
+            <point key="canvasLocation" x="137.68115942028987" y="125.89285714285714"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Logo" width="341.33334350585938" height="341.33334350585938"/>
+    </resources>
 </document>

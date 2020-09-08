@@ -10,5 +10,14 @@ import Foundation
 class WelcomeViewModel {
 
     // MARK: - Dependencies
-    weak var coordinator: WelcomeCoordinator!
+    var coordinator: AppCoordinator!
+
+    // MARK: - Public
+    func showTranslate() {
+        coordinator.showTabBar(selectedTab: .translate)
+    }
+
+    func showHistory() {
+        coordinator.showTabBar(selectedTab: .history)
+    }
 }
