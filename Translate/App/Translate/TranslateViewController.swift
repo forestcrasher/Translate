@@ -20,24 +20,20 @@ class TranslateViewController: UIViewController {
         title = "Translate"
         view.backgroundColor = .systemBackground
 
-        let translateFromButton = UIButton()
         translateFromButton.setTitle("Russian", for: .normal)
         translateFromButton.setTitleColor(Color.normal, for: .normal)
         translateFromButton.setTitleColor(Color.highlighted, for: .highlighted)
         translateFromButton.contentHorizontalAlignment = .center
 
-        let translateToButton = UIButton()
         translateToButton.setTitle("English", for: .normal)
         translateToButton.setTitleColor(Color.normal, for: .normal)
         translateToButton.setTitleColor(Color.highlighted, for: .highlighted)
         translateToButton.contentHorizontalAlignment = .center
 
-        let toggleLanguageButton = UIButton()
         let toggleLanguageButtonImage = UIImage(systemName: "arrow.right.arrow.left")
         toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Color.normal), for: .normal)
         toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Color.highlighted, renderingMode: .alwaysOriginal), for: .highlighted)
 
-        let topButtons = UIStackView(arrangedSubviews: [translateFromButton, toggleLanguageButton, translateToButton])
         topButtons.axis = .horizontal
         topButtons.spacing = 0.0
         topButtons.alignment = .center
@@ -52,22 +48,110 @@ class TranslateViewController: UIViewController {
             topButtons.height == 44.0
         }
 
-        let topButtonsSeparator = UIView()
         topButtonsSeparator.backgroundColor = .separator
         topButtonsSeparator.translatesAutoresizingMaskIntoConstraints = false
-        topButtons.addSubview(topButtonsSeparator)
+        view.addSubview(topButtonsSeparator)
 
-        constrain(topButtonsSeparator, topButtons) { topButtonsSeparator, topButtons in
-            topButtonsSeparator.bottom == topButtons.bottom
-            topButtonsSeparator.left == topButtons.left - 16.0
-            topButtonsSeparator.right == topButtons.right + 16.0
+        constrain(topButtonsSeparator, topButtons, view) { topButtonsSeparator, topButtons, view in
+            topButtonsSeparator.top == topButtons.bottom
+            topButtonsSeparator.left == view.left
+            topButtonsSeparator.right == view.right
             topButtonsSeparator.height == 0.5
         }
+
+        textViewFrom.isEditable = true
+        textViewFrom.font = .systemFont(ofSize: 17.0)
+        textViewFrom.textColor = .lightGray
+        textViewFrom.text = "Enter text"
+        textViewFrom.translatesAutoresizingMaskIntoConstraints = false
+        textViewFrom.delegate = self
+        view.addSubview(textViewFrom)
+
+        let textViewFromButtonImage = UIImage(systemName: "xmark")
+        textViewFromButton.setImage(textViewFromButtonImage?.withTintColor(Color.normal), for: .normal)
+        textViewFromButton.setImage(textViewFromButtonImage?.withTintColor(Color.highlighted, renderingMode: .alwaysOriginal), for: .highlighted)
+        textViewFromButton.isHidden = true
+        textViewFromButton.addTarget(self, action: #selector(clearTextViewFrom), for: .touchUpInside)
+        view.addSubview(textViewFromButton)
+
+        constrain(textViewFrom, topButtons, textViewFromButton, view) { textViewFrom, topButtons, textViewFromButton, view in
+            textViewFrom.top == topButtons.bottom + 8.0
+            textViewFrom.left == view.left + 16.0
+            textViewFrom.right == textViewFromButton.left - 16.0
+            textViewFrom.height == 112.0
+
+            textViewFromButton.top == topButtons.bottom + 16.0
+            textViewFromButton.right == view.right - 16.0
+        }
+
+        textViewFromSeparator.backgroundColor = .separator
+        textViewFromSeparator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textViewFromSeparator)
+
+        constrain(textViewFromSeparator, textViewFrom, view) { textViewFromSeparator, textViewFrom, view in
+            textViewFromSeparator.top == textViewFrom.bottom + 8.0
+            textViewFromSeparator.left == view.left
+            textViewFromSeparator.right == view.right
+            textViewFromSeparator.height == 0.5
+        }
+
+        hideKeyboardWhenTappedAround()
+    }
+
+    // MARK: - Private
+    private lazy var translateFromButton = UIButton()
+    private lazy var translateToButton = UIButton()
+    private lazy var toggleLanguageButton = UIButton()
+    private lazy var topButtons = UIStackView(arrangedSubviews: [translateFromButton, toggleLanguageButton, translateToButton])
+    private lazy var topButtonsSeparator = UIView()
+    private lazy var textViewFrom = UITextView()
+    private lazy var textViewFromButton = UIButton()
+    private lazy var textViewFromSeparator = UIView()
+
+    private func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(TranslateViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc
+    private func clearTextViewFrom() {
+        textViewFrom.text = nil
+    }
+
+    @objc
+    private func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        view.endEditing(true)
     }
 
     private enum Color {
 
         static let normal = UIColor.systemBlue
         static let highlighted = normal.withAlphaComponent(0.3)
+    }
+}
+
+extension TranslateViewController: UITextViewDelegate {
+
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textViewFrom.textColor == UIColor.lightGray && textViewFrom.isFirstResponder {
+            textViewFrom.text = nil
+            textViewFrom.textColor = .label
+        }
+
+        textViewFromButton.isHidden = textViewFrom.text.isEmpty
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textViewFrom.text.isEmpty {
+            textViewFrom.textColor = .lightGray
+            textViewFrom.text = "Enter text"
+        }
+
+        textViewFromButton.isHidden = true
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        textViewFromButton.isHidden = textViewFrom.text.isEmpty
     }
 }
