@@ -20,6 +20,24 @@ class TranslateViewController: UIViewController {
         title = "Translate"
         view.backgroundColor = .systemBackground
 
+        setupTopButtons()
+        setupTextViewFrom()
+        setupTextViewTo()
+        setupTapGestureForDismissKeyboard()
+        setupSwipeGestureForClearTextViewFrom()
+    }
+
+    // MARK: - Private
+    private lazy var translateFromButton = UIButton()
+    private lazy var translateToButton = UIButton()
+    private lazy var toggleLanguageButton = UIButton()
+    private lazy var topButtons = UIStackView(arrangedSubviews: [translateFromButton, toggleLanguageButton, translateToButton])
+    private lazy var topButtonsSeparator = UIView()
+    private lazy var textViewFrom = UITextView()
+    private lazy var textViewFromButton = UIButton()
+    private lazy var textViewFromSeparator = UIView()
+
+    private func setupTopButtons() {
         translateFromButton.setTitle("Russian", for: .normal)
         translateFromButton.setTitleColor(Color.normal, for: .normal)
         translateFromButton.setTitleColor(Color.highlighted, for: .highlighted)
@@ -58,7 +76,9 @@ class TranslateViewController: UIViewController {
             topButtonsSeparator.right == view.right
             topButtonsSeparator.height == 0.5
         }
+    }
 
+    private func setupTextViewFrom() {
         textViewFrom.isEditable = true
         textViewFrom.font = .systemFont(ofSize: 17.0)
         textViewFrom.textColor = .lightGray
@@ -94,24 +114,39 @@ class TranslateViewController: UIViewController {
             textViewFromSeparator.right == view.right
             textViewFromSeparator.height == 0.5
         }
-
-        hideKeyboardWhenTappedAround()
     }
 
-    // MARK: - Private
-    private lazy var translateFromButton = UIButton()
-    private lazy var translateToButton = UIButton()
-    private lazy var toggleLanguageButton = UIButton()
-    private lazy var topButtons = UIStackView(arrangedSubviews: [translateFromButton, toggleLanguageButton, translateToButton])
-    private lazy var topButtonsSeparator = UIView()
-    private lazy var textViewFrom = UITextView()
-    private lazy var textViewFromButton = UIButton()
-    private lazy var textViewFromSeparator = UIView()
+    private func setupTextViewTo() {
 
-    private func hideKeyboardWhenTappedAround() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(TranslateViewController.dismissKeyboard))
-        tap.cancelsTouchesInView = false
+    }
+
+    private func setupTapGestureForDismissKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(TranslateViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
+    }
+
+    private func setupSwipeGestureForClearTextViewFrom() {
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(TranslateViewController.clearTextViewFromByGesture))
+        swipe.direction = [.left]
+        textViewFrom.addGestureRecognizer(swipe)
+    }
+
+    @objc
+    private func clearTextViewFromByGesture(_ sender: UISwipeGestureRecognizer) {
+        switch sender.state {
+        case .ended:
+            if textViewFrom.textColor != UIColor.lightGray {
+                textViewFrom.text = nil
+                textViewFromButton.isHidden = true
+            }
+
+            if !textViewFrom.isFirstResponder {
+                textViewFrom.textColor = .lightGray
+                textViewFrom.text = "Enter text"
+            }
+        default:
+            break
+        }
     }
 
     @objc
@@ -121,7 +156,12 @@ class TranslateViewController: UIViewController {
 
     @objc
     private func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        view.endEditing(true)
+        switch sender.state {
+        case .ended:
+            view.endEditing(true)
+        default:
+            break
+        }
     }
 
     private enum Color {
