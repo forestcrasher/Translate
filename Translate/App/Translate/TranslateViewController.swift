@@ -25,6 +25,12 @@ class TranslateViewController: UIViewController {
         setupTextViewTo()
         setupTapGestureForDismissKeyboard()
         setupSwipeGestureForClearTextViewFrom()
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard),
+                                       name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard),
+                                       name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
 
     // MARK: - Private
@@ -36,6 +42,10 @@ class TranslateViewController: UIViewController {
     private lazy var textViewFrom = UITextView()
     private lazy var textViewFromButton = UIButton()
     private lazy var textViewFromSeparator = UIView()
+//    private lazy var textViewToScroll = UIScrollView()
+    private lazy var textViewTo = UITextView()
+    private lazy var textViewToButton = UIButton()
+    private lazy var activityIndicator = UIActivityIndicatorView()
 
     private func setupTopButtons() {
         translateFromButton.setTitle("Russian", for: .normal)
@@ -98,7 +108,7 @@ class TranslateViewController: UIViewController {
             textViewFrom.top == topButtons.bottom + 8.0
             textViewFrom.left == view.left + 16.0
             textViewFrom.right == textViewFromButton.left - 16.0
-            textViewFrom.height == 112.0
+            textViewFrom.height == 96.0
 
             textViewFromButton.top == topButtons.bottom + 16.0
             textViewFromButton.right == view.right - 16.0
@@ -117,7 +127,26 @@ class TranslateViewController: UIViewController {
     }
 
     private func setupTextViewTo() {
+        textViewTo.isEditable = false
+        textViewTo.font = .systemFont(ofSize: 17.0)
+        textViewTo.textColor = .label
+        textViewTo.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(textViewTo)
 
+        let textViewToButtonImage = UIImage(systemName: "square.on.square")
+        textViewToButton.setImage(textViewToButtonImage?.withTintColor(Color.normal), for: .normal)
+        textViewToButton.setImage(textViewToButtonImage?.withTintColor(Color.highlighted, renderingMode: .alwaysOriginal), for: .highlighted)
+        view.addSubview(textViewToButton)
+
+        constrain(textViewTo, textViewFromSeparator, textViewToButton, view) { textViewTo, textViewFromSeparator, textViewToButton, view in
+            textViewTo.top == textViewFromSeparator.bottom + 8.0
+            textViewTo.left == view.left + 16.0
+            textViewTo.right == textViewToButton.left - 16.0
+            textViewTo.bottom == view.safeAreaLayoutGuide.bottomMargin - 8.0
+
+            textViewToButton.top == textViewFromSeparator.bottom + 16.0
+            textViewToButton.right == view.right - 16.0
+        }
     }
 
     private func setupTapGestureForDismissKeyboard() {
@@ -129,6 +158,12 @@ class TranslateViewController: UIViewController {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(TranslateViewController.clearTextViewFromByGesture))
         swipe.direction = [.left]
         textViewFrom.addGestureRecognizer(swipe)
+    }
+    
+    private enum Color {
+
+        static let normal = UIColor.systemBlue
+        static let highlighted = normal.withAlphaComponent(0.3)
     }
 
     @objc
@@ -164,10 +199,25 @@ class TranslateViewController: UIViewController {
         }
     }
 
-    private enum Color {
+    @objc
+    private func adjustForKeyboard(notification: Notification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
 
-        static let normal = UIColor.systemBlue
-        static let highlighted = normal.withAlphaComponent(0.3)
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            textViewTo.contentInset = .zero
+        } else {
+            textViewTo.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+        }
+
+        textViewTo.scrollIndicatorInsets = textViewTo.contentInset
+
+        let selectedRange = textViewTo.selectedRange
+        textViewTo.scrollRangeToVisible(selectedRange)
     }
 }
 
@@ -193,5 +243,7 @@ extension TranslateViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
         textViewFromButton.isHidden = textViewFrom.text.isEmpty
+
+        textViewTo.text = textViewFrom.text
     }
 }
