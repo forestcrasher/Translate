@@ -14,7 +14,7 @@ class WelcomeViewController: UIViewController {
 
     // MARK: - Actions
     @IBAction private func touchTranslateButton() {
-        self.viewModel.showTranslate()
+        viewModel.showTranslate()
     }
 
     @IBAction func touchHistoryButton() {

@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.2.2)
+  - Cartography (3.1.0)
   - Differentiator (4.0.1)
   - R.swift (5.2.2):
     - R.swift.Library (~> 5.2.0)
@@ -19,6 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire (~> 5.2)
+  - Cartography (~> 3.0)
   - R.swift
   - RxCocoa (~> 5)
   - RxDataSources (~> 4.0)
@@ -29,6 +31,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - Cartography
     - Differentiator
     - R.swift
     - R.swift.Library
@@ -41,6 +44,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  Cartography: 1988b7578871a56c036e7af17195cb2190edf18c
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   R.swift: 7c52cdc57a66840ffe6cbd8a823d732059d42a32
   R.swift.Library: 5ba4f1631300caf9a4d890186930da85d540769d
@@ -51,6 +55,6 @@ SPEC CHECKSUMS:
   SwiftLint: bbfed21bf4451dcbd0f5cdbee44a18e06cf91b12
   Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
 
-PODFILE CHECKSUM: f4dca8e290c40789f1359943dda5cb4fe6c96c5f
+PODFILE CHECKSUM: f73c414f83f3c15599042a58429e89a6632a76af
 
 COCOAPODS: 1.9.3
