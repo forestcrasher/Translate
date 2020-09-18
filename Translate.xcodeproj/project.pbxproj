@@ -15,6 +15,7 @@
 		E6056359250574B100F72C91 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6056358250574B100F72C91 /* HistoryViewModel.swift */; };
 		E605635B250574EE00F72C91 /* TranslateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605635A250574EE00F72C91 /* TranslateService.swift */; };
 		E605635D25062EBB00F72C91 /* HistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605635C25062EBB00F72C91 /* HistoryService.swift */; };
+		E61AF2F02514FA2B00AB7107 /* Translate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */; };
 		E627395325063E13003B02C8 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = E627395225063E13003B02C8 /* R.generated.swift */; };
 		E63782C42503DDA40001321D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63782C32503DDA40001321D /* AppDelegate.swift */; };
 		E63782C82503DDA40001321D /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E63782C72503DDA40001321D /* WelcomeViewController.swift */; };
@@ -38,6 +39,7 @@
 		E6056358250574B100F72C91 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		E605635A250574EE00F72C91 /* TranslateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateService.swift; sourceTree = "<group>"; };
 		E605635C25062EBB00F72C91 /* HistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryService.swift; sourceTree = "<group>"; };
+		E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Translate.xcdatamodel; sourceTree = "<group>"; };
 		E627395225063E13003B02C8 /* R.generated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = R.generated.swift; path = ../R.generated.swift; sourceTree = "<group>"; };
 		E63782C02503DDA40001321D /* Translate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Translate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E63782C32503DDA40001321D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Translate/App/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				E63782CC2503DDAC0001321D /* Assets.xcassets */,
+				E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */,
 				E63782CE2503DDAC0001321D /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
@@ -246,7 +249,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					E63782BF2503DDA40001321D = {
 						CreatedOnToolsVersion = 11.6;
@@ -381,6 +384,7 @@
 				E60563572505749600F72C91 /* HistoryViewController.swift in Sources */,
 				E63782C42503DDA40001321D /* AppDelegate.swift in Sources */,
 				E627395325063E13003B02C8 /* R.generated.swift in Sources */,
+				E61AF2F02514FA2B00AB7107 /* Translate.xcdatamodeld in Sources */,
 				E6056359250574B100F72C91 /* HistoryViewModel.swift in Sources */,
 				E664DCFB25068133004DCB1D /* TranslateCoordinator.swift in Sources */,
 				E664DCFD25068150004DCB1D /* HistoryCoodinator.swift in Sources */,
@@ -435,6 +439,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -495,6 +500,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -585,6 +591,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */,
+			);
+			currentVersion = E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */;
+			path = Translate.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E63782B82503DDA40001321D /* Project object */;
 }

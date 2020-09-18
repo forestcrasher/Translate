@@ -28,7 +28,7 @@ class AppCoordinator: Coordinator {
             navigationController?.navigationBar.isHidden = true
             rootViewController = navigationController
 
-            showTabBar(selectedTab: .translate)
+//            showTabBar(selectedTab: .history)
         }
     }
 
