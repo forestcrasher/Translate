@@ -15,9 +15,5 @@ class ShapeButton: UIButton {
         super.layoutSubviews()
 
         layer.cornerRadius = 8.0
-        backgroundColor = UIColor.systemBlue
-
-        titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .semibold)
-        titleLabel?.textColor = UIColor.white
     }
 }
