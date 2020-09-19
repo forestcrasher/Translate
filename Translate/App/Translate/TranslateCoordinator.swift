@@ -18,12 +18,9 @@ class TranslateCoordinator: Coordinator {
     }
 
     func start() {
-        let translateViewModel = TranslateViewModel()
-        translateViewModel.translateService = container.resolve(TranslateService.self)
-        translateViewModel.historyService = container.resolve(HistoryService.self)
-        translateViewModel.coordinator = self
-
+        let translateViewModel = TranslateViewModel(container: container, coordinator: self)
         let translateViewController = TranslateViewController()
+        translateViewController.viewModel = translateViewModel
         let tabBarItemImage = UIImage(systemName: "globe")
         translateViewController.tabBarItem = UITabBarItem(title: "Translate", image: tabBarItemImage, selectedImage: tabBarItemImage)
 
