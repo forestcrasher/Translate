@@ -15,7 +15,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     let container = Container { container in
-        container.register(TranslateService.self) { _ in TranslateService() }
+        container.register(AuthorizationService.self) { _ in AuthorizationService() }
+        container.register(TranslateService.self) { resolver in
+            return TranslateService(authorizationService: resolver.resolve(AuthorizationService.self))
+        }
         container.register(HistoryService.self) { _ in HistoryService() }
     }
 
