@@ -8,56 +8,143 @@
 import Alamofire
 import Foundation
 import RxSwift
+import Swinject
 
 class TranslateService {
 
-    // MARK: - Public
-    func detectLanguage() {
+    // MARK: - Dependencies
+    private var authorizationService: AuthorizationService?
+
+    // MARK: - Init
+    init(authorizationService: AuthorizationService?) {
+        self.authorizationService = authorizationService
     }
 
-    func listLanguages() -> Observable<[Language]> {
+    // MARK: - Public
+    func detectLanguage(text: String) -> Observable<String>? {
         if Reachability.isConnectedToNetwork == false {
             return .error(TranslateServiceError.networkNotAvailable)
         }
 
-        let parameters = ["folderId": folderId]
-        let headers: HTTPHeaders = ["Authorization": "Bearer \(IAMToken)"]
-        let encoder = JSONParameterEncoder.default
+        return authorizationService?.getIamToken()
+            .flatMap { [unowned self] iamToken -> Observable<String> in
+                let parameters = DetectLanguageRequest(text: text,
+                                                       languageCodeHints: nil,
+                                                       folderId: self.authorizationService?.folderId)
+                let headers: HTTPHeaders = ["Authorization": "Bearer \(iamToken)"]
+                let request = AF.request("\(self.api)/detect", method: .post, parameters: parameters, encoder: self.encoder, headers: headers)
 
-        let request = AF.request("\(api)/languages", method: .post, parameters: parameters, encoder: encoder, headers: headers)
-
-        return .create { observer in
-            request.response { response in
-                switch response.result {
-                case .success(let data):
-                    if let data = data {
-                        do {
-                            let decoder = JSONDecoder()
-                            let decodedData = try decoder.decode(ListLanguagesResponse.self, from: data)
-                            observer.onNext(decodedData.languages)
-                            observer.onCompleted()
-                        } catch {
-                            observer.onError(TranslateServiceError.dataNotDecoded)
+                return .create { observer in
+                    request.response { response in
+                        switch response.result {
+                        case .success(let data):
+                            if let data = data {
+                                do {
+                                    let decoder = JSONDecoder()
+                                    let decodedData = try decoder.decode(DetectLanguageResponse.self, from: data)
+                                    observer.onNext(decodedData.languageCode)
+                                    observer.onCompleted()
+                                } catch {
+                                    observer.onError(TranslateServiceError.dataNotDecoded)
+                                }
+                            } else {
+                                observer.onError(TranslateServiceError.dataNotLoaded)
+                            }
+                        case .failure(let error):
+                            observer.onError(error)
                         }
-                    } else {
-                        observer.onError(TranslateServiceError.dataNotLoaded)
                     }
-                case .failure(let error):
-                    observer.onError(error)
+
+                    return Disposables.create {
+                        request.cancel()
+                    }
                 }
             }
-
-            return Disposables.create {
-                request.cancel()
-            }
-        }
     }
 
-    func translate() {
+    func listLanguages() -> Observable<[Language]>? {
+        if Reachability.isConnectedToNetwork == false {
+            return .error(TranslateServiceError.networkNotAvailable)
+        }
+
+        return authorizationService?.getIamToken()
+            .flatMap { [unowned self] iamToken -> Observable<[Language]> in
+                let parameters = ListLanguagesRequest(folderId: self.authorizationService?.folderId)
+                let headers: HTTPHeaders = ["Authorization": "Bearer \(iamToken)"]
+                let request = AF.request("\(self.api)/languages", method: .post, parameters: parameters, encoder: self.encoder, headers: headers)
+
+                return .create { observer in
+                    request.response { response in
+                        switch response.result {
+                        case .success(let data):
+                            if let data = data {
+                                do {
+                                    let decoder = JSONDecoder()
+                                    let decodedData = try decoder.decode(ListLanguagesResponse.self, from: data)
+                                    observer.onNext(decodedData.languages)
+                                    observer.onCompleted()
+                                } catch {
+                                    observer.onError(TranslateServiceError.dataNotDecoded)
+                                }
+                            } else {
+                                observer.onError(TranslateServiceError.dataNotLoaded)
+                            }
+                        case .failure(let error):
+                            observer.onError(error)
+                        }
+                    }
+
+                    return Disposables.create {
+                        request.cancel()
+                    }
+                }
+            }
+    }
+
+    func translate(sourceLanguageCode: String, targetLanguageCode: String, text: String) -> Observable<[Translation]>? {
+        if Reachability.isConnectedToNetwork == false {
+            return .error(TranslateServiceError.networkNotAvailable)
+        }
+
+        return authorizationService?.getIamToken()
+            .flatMap { [unowned self] iamToken -> Observable<[Translation]> in
+                let parameters = TranslateRequest(sourceLanguageCode: sourceLanguageCode,
+                                                  targetLanguageCode: targetLanguageCode,
+                                                  format: "PLAIN_TEXT",
+                                                  texts: [text],
+                                                  folderId: self.authorizationService?.folderId)
+                let headers: HTTPHeaders = ["Authorization": "Bearer \(iamToken)"]
+                let request = AF.request("\(self.api)/translate", method: .post, parameters: parameters, encoder: self.encoder, headers: headers)
+
+                return .create { observer in
+                    request.response { response in
+                        switch response.result {
+                        case .success(let data):
+                            if let data = data {
+                                do {
+                                    let decoder = JSONDecoder()
+                                    let decodedData = try decoder.decode(TranslateResponse.self, from: data)
+                                    observer.onNext(decodedData.translations)
+                                    observer.onCompleted()
+                                } catch {
+                                    observer.onError(TranslateServiceError.dataNotDecoded)
+                                }
+                            } else {
+                                observer.onError(TranslateServiceError.dataNotLoaded)
+                            }
+                        case .failure(let error):
+                            observer.onError(error)
+                        }
+                    }
+
+                    return Disposables.create {
+                        request.cancel()
+                    }
+                }
+            }
     }
 
     // MARK: - Private
+    private let encoder = JSONParameterEncoder.default
     private let api = "https://translate.api.cloud.yandex.net/translate/v2"
-    private let folderId = "b1gpbci6glk31i4ncf9r"
-    private let IAMToken = "t1.9f7L7euelZqJipfOlozGzc2ek8ySm8bPjuXz9yZpZgT6739VL1T83fP3ZhdkBPrvf1UvVPw.2OdOlHc4_INFbZMDqMtTVUPx1BllJcnUkVyW224aD9nujSj8PqkuKN0LldokAzb73iJg9ifKhBpMn8L9J9e3CA"
 }

@@ -10,12 +10,13 @@ import UIKit
 
 class AppCoordinator: Coordinator {
 
-    // MARK: - Public
-    var rootViewController: UIViewController?
-
+    // MARK: - Init
     init(container: Container) {
         self.container = container
     }
+
+    // MARK: - Public
+    var rootViewController: UIViewController?
 
     func start() {
         if let welcomeViewContraoller = R.storyboard.welcome().instantiateInitialViewController() as? WelcomeViewController {

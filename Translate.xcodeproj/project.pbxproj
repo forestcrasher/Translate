@@ -15,7 +15,6 @@
 		E6056359250574B100F72C91 /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6056358250574B100F72C91 /* HistoryViewModel.swift */; };
 		E605635B250574EE00F72C91 /* TranslateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605635A250574EE00F72C91 /* TranslateService.swift */; };
 		E605635D25062EBB00F72C91 /* HistoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605635C25062EBB00F72C91 /* HistoryService.swift */; };
-		E61AF2F02514FA2B00AB7107 /* Translate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */; };
 		E61AF2F42516786900AB7107 /* ListLanguagesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61AF2F32516786900AB7107 /* ListLanguagesResponse.swift */; };
 		E61AF2F72516790400AB7107 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61AF2F62516790400AB7107 /* Language.swift */; };
 		E61AF2FE25167BCB00AB7107 /* TranslateServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E61AF2FD25167BCB00AB7107 /* TranslateServiceError.swift */; };
@@ -31,6 +30,16 @@
 		E664DCFD25068150004DCB1D /* HistoryCoodinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E664DCFC25068150004DCB1D /* HistoryCoodinator.swift */; };
 		E664DD002506910A004DCB1D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E664DCFF2506910A004DCB1D /* Coordinator.swift */; };
 		E664DD032507B08A004DCB1D /* ShapeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E664DD022507B08A004DCB1D /* ShapeButton.swift */; };
+		E6DE53FA2517313C00105D87 /* AuthorizationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE53F92517313C00105D87 /* AuthorizationService.swift */; };
+		E6DE53FD2517A2A100105D87 /* AuthorizationServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE53FC2517A2A100105D87 /* AuthorizationServiceError.swift */; };
+		E6DE54012517A3F000105D87 /* TokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54002517A3F000105D87 /* TokenResponse.swift */; };
+		E6DE54052517BA0E00105D87 /* DetectLanguageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54042517BA0E00105D87 /* DetectLanguageResponse.swift */; };
+		E6DE54082517BC6600105D87 /* TranslateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54072517BC6600105D87 /* TranslateResponse.swift */; };
+		E6DE540B2517BCEF00105D87 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE540A2517BCEF00105D87 /* Translation.swift */; };
+		E6DE54102517D08000105D87 /* ListLanguagesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE540F2517D08000105D87 /* ListLanguagesRequest.swift */; };
+		E6DE54132517D09F00105D87 /* DetectLanguageRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54122517D09F00105D87 /* DetectLanguageRequest.swift */; };
+		E6DE54162517D0BE00105D87 /* TranslateRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54152517D0BE00105D87 /* TranslateRequest.swift */; };
+		E6DE541A2517D38600105D87 /* TokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6DE54192517D38600105D87 /* TokenRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,7 +52,6 @@
 		E6056358250574B100F72C91 /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
 		E605635A250574EE00F72C91 /* TranslateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TranslateService.swift; path = Translate/Services/TranslateService/TranslateService.swift; sourceTree = SOURCE_ROOT; };
 		E605635C25062EBB00F72C91 /* HistoryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HistoryService.swift; path = Translate/Services/HistoryService/HistoryService.swift; sourceTree = SOURCE_ROOT; };
-		E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Translate.xcdatamodel; sourceTree = "<group>"; };
 		E61AF2F32516786900AB7107 /* ListLanguagesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLanguagesResponse.swift; sourceTree = "<group>"; };
 		E61AF2F62516790400AB7107 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		E61AF2FD25167BCB00AB7107 /* TranslateServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateServiceError.swift; sourceTree = "<group>"; };
@@ -61,6 +69,16 @@
 		E664DCFC25068150004DCB1D /* HistoryCoodinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryCoodinator.swift; sourceTree = "<group>"; };
 		E664DCFF2506910A004DCB1D /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		E664DD022507B08A004DCB1D /* ShapeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeButton.swift; sourceTree = "<group>"; };
+		E6DE53F92517313C00105D87 /* AuthorizationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationService.swift; sourceTree = "<group>"; };
+		E6DE53FC2517A2A100105D87 /* AuthorizationServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationServiceError.swift; sourceTree = "<group>"; };
+		E6DE54002517A3F000105D87 /* TokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenResponse.swift; sourceTree = "<group>"; };
+		E6DE54042517BA0E00105D87 /* DetectLanguageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectLanguageResponse.swift; sourceTree = "<group>"; };
+		E6DE54072517BC6600105D87 /* TranslateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateResponse.swift; sourceTree = "<group>"; };
+		E6DE540A2517BCEF00105D87 /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
+		E6DE540F2517D08000105D87 /* ListLanguagesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLanguagesRequest.swift; sourceTree = "<group>"; };
+		E6DE54122517D09F00105D87 /* DetectLanguageRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectLanguageRequest.swift; sourceTree = "<group>"; };
+		E6DE54152517D0BE00105D87 /* TranslateRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateRequest.swift; sourceTree = "<group>"; };
+		E6DE54192517D38600105D87 /* TokenRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRequest.swift; sourceTree = "<group>"; };
 		E7D43595ADCC239CFCD73DE5 /* Pods-Translate.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate.debug.xcconfig"; path = "Target Support Files/Pods-Translate/Pods-Translate.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -96,6 +114,7 @@
 		E61AF2F92516791E00AB7107 /* TranslateService */ = {
 			isa = PBXGroup;
 			children = (
+				E6DE540E2517D05000105D87 /* Requests */,
 				E61AF2FA2516795700AB7107 /* Responses */,
 				E605635A250574EE00F72C91 /* TranslateService.swift */,
 				E61AF2FD25167BCB00AB7107 /* TranslateServiceError.swift */,
@@ -107,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				E61AF2F32516786900AB7107 /* ListLanguagesResponse.swift */,
+				E6DE54042517BA0E00105D87 /* DetectLanguageResponse.swift */,
+				E6DE54072517BC6600105D87 /* TranslateResponse.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -174,7 +195,6 @@
 			isa = PBXGroup;
 			children = (
 				E63782CC2503DDAC0001321D /* Assets.xcassets */,
-				E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -225,8 +245,9 @@
 		E63782E32503FA1E0001321D /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				E61AF2FB2516798E00AB7107 /* HistoryService */,
+				E6DE53F82517312200105D87 /* AuthorizationService */,
 				E61AF2F92516791E00AB7107 /* TranslateService */,
+				E61AF2FB2516798E00AB7107 /* HistoryService */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -242,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				E61AF2F62516790400AB7107 /* Language.swift */,
+				E6DE540A2517BCEF00105D87 /* Translation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +282,43 @@
 				E664DD022507B08A004DCB1D /* ShapeButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		E6DE53F82517312200105D87 /* AuthorizationService */ = {
+			isa = PBXGroup;
+			children = (
+				E6DE54182517D36600105D87 /* Requests */,
+				E6DE53FF2517A3B400105D87 /* Responses */,
+				E6DE53F92517313C00105D87 /* AuthorizationService.swift */,
+				E6DE53FC2517A2A100105D87 /* AuthorizationServiceError.swift */,
+			);
+			path = AuthorizationService;
+			sourceTree = "<group>";
+		};
+		E6DE53FF2517A3B400105D87 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				E6DE54002517A3F000105D87 /* TokenResponse.swift */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		E6DE540E2517D05000105D87 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				E6DE540F2517D08000105D87 /* ListLanguagesRequest.swift */,
+				E6DE54122517D09F00105D87 /* DetectLanguageRequest.swift */,
+				E6DE54152517D0BE00105D87 /* TranslateRequest.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		E6DE54182517D36600105D87 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				E6DE54192517D38600105D87 /* TokenRequest.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -416,12 +475,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6DE54082517BC6600105D87 /* TranslateResponse.swift in Sources */,
 				E63782C82503DDA40001321D /* WelcomeViewController.swift in Sources */,
 				E664DD032507B08A004DCB1D /* ShapeButton.swift in Sources */,
 				E61AF2F42516786900AB7107 /* ListLanguagesResponse.swift in Sources */,
+				E6DE54052517BA0E00105D87 /* DetectLanguageResponse.swift in Sources */,
+				E6DE54102517D08000105D87 /* ListLanguagesRequest.swift in Sources */,
+				E6DE540B2517BCEF00105D87 /* Translation.swift in Sources */,
 				E61AF2F72516790400AB7107 /* Language.swift in Sources */,
+				E6DE54162517D0BE00105D87 /* TranslateRequest.swift in Sources */,
 				E60563532505745E00F72C91 /* TranslateViewController.swift in Sources */,
+				E6DE54132517D09F00105D87 /* DetectLanguageRequest.swift in Sources */,
 				E605635D25062EBB00F72C91 /* HistoryService.swift in Sources */,
+				E6DE541A2517D38600105D87 /* TokenRequest.swift in Sources */,
 				E605634F2505728700F72C91 /* AppCoordinator.swift in Sources */,
 				E605635B250574EE00F72C91 /* TranslateService.swift in Sources */,
 				E60563552505747600F72C91 /* TranslateViewModel.swift in Sources */,
@@ -431,11 +497,13 @@
 				E60563572505749600F72C91 /* HistoryViewController.swift in Sources */,
 				E63782C42503DDA40001321D /* AppDelegate.swift in Sources */,
 				E627395325063E13003B02C8 /* R.generated.swift in Sources */,
-				E61AF2F02514FA2B00AB7107 /* Translate.xcdatamodeld in Sources */,
+				E6DE53FA2517313C00105D87 /* AuthorizationService.swift in Sources */,
 				E6056359250574B100F72C91 /* HistoryViewModel.swift in Sources */,
 				E664DCFB25068133004DCB1D /* TranslateCoordinator.swift in Sources */,
 				E61AF30225167C3200AB7107 /* Reachability.swift in Sources */,
+				E6DE53FD2517A2A100105D87 /* AuthorizationServiceError.swift in Sources */,
 				E664DCFD25068150004DCB1D /* HistoryCoodinator.swift in Sources */,
+				E6DE54012517A3F000105D87 /* TokenResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,19 +707,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		E61AF2EE2514FA2B00AB7107 /* Translate.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */,
-			);
-			currentVersion = E61AF2EF2514FA2B00AB7107 /* Translate.xcdatamodel */;
-			path = Translate.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = E63782B82503DDA40001321D /* Project object */;
 }

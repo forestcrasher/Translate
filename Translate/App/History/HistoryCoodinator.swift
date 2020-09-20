@@ -10,12 +10,13 @@ import UIKit
 
 class HistoryCoordinator: Coordinator {
 
-    // MARK: - Public
-    var rootViewController: UIViewController?
-
+    // MARK: - Init
     init(container: Container) {
         self.container = container
     }
+
+    // MARK: - Public
+    var rootViewController: UIViewController?
 
     func start() {
         let historyViewModel = HistoryViewModel()
