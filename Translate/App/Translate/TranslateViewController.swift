@@ -7,6 +7,8 @@
 
 import Cartography
 import UIKit
+import RxSwift
+import RxCocoa
 
 class TranslateViewController: UIViewController {
 
@@ -17,25 +19,10 @@ class TranslateViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Constants.title
-        view.backgroundColor = .systemBackground
-
-        setupTopButtons()
-        setupTextViewFrom()
-        setupTextViewTo()
-        setupTapGestureForDismissKeyboard()
-        setupSwipeGestureForClearTextViewFrom()
-
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self,
-                                       selector: #selector(adjustForKeyboard),
-                                       name: UIResponder.keyboardWillHideNotification,
-                                       object: nil)
-
-        notificationCenter.addObserver(self,
-                                       selector: #selector(adjustForKeyboard),
-                                       name: UIResponder.keyboardWillChangeFrameNotification,
-                                       object: nil)
+        setupUI()
+        setupGestures()
+        setupBindings()
+        setupNotificationCenter()
     }
 
     // MARK: - Private
@@ -50,22 +37,36 @@ class TranslateViewController: UIViewController {
     private lazy var textViewTo = UITextView()
     private lazy var textViewToButton = UIButton()
     private lazy var activityIndicator = UIActivityIndicatorView()
+    
+    private var disposeBag = DisposeBag()
+    
+    private func setupUI() {
+        title = Constants.title
+        view.backgroundColor = .systemBackground
+        
+        setupTopButtons()
+        setupTextViewFrom()
+        setupTextViewTo()
+    }
 
     private func setupTopButtons() {
         translateFromButton.setTitle(Constants.translateFromButtonTitle, for: .normal)
         translateFromButton.setTitleColor(Constants.normalColor, for: .normal)
         translateFromButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
         translateFromButton.contentHorizontalAlignment = .center
+        translateFromButton.addTarget(self, action: #selector(selectLanguageFrom), for: .touchUpInside)
 
         translateToButton.setTitle(Constants.translateToButtonTitle, for: .normal)
         translateToButton.setTitleColor(Constants.normalColor, for: .normal)
         translateToButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
         translateToButton.contentHorizontalAlignment = .center
+        translateToButton.addTarget(self, action: #selector(selectLanguageTo), for: .touchUpInside)
 
         let toggleLanguageButtonImage = UIImage(systemName: Constants.toggleButtonIcon)
         toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Constants.normalColor), for: .normal)
         toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal),
                                       for: .highlighted)
+        toggleLanguageButton.addTarget(self, action: #selector(toggleLanguage), for: .touchUpInside)
 
         topButtons.axis = .horizontal
         topButtons.spacing = 0.0
@@ -156,6 +157,11 @@ class TranslateViewController: UIViewController {
             textViewToButton.right == view.right - Constants.horizontalPadding
         }
     }
+    
+    private func setupGestures() {
+        setupTapGestureForDismissKeyboard()
+        setupSwipeGestureForClearTextViewFrom()
+    }
 
     private func setupTapGestureForDismissKeyboard() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(TranslateViewController.dismissKeyboard))
@@ -166,6 +172,72 @@ class TranslateViewController: UIViewController {
         let swipe = UISwipeGestureRecognizer(target: self, action: #selector(TranslateViewController.clearTextViewFromByGesture))
         swipe.direction = [.left]
         textViewFrom.addGestureRecognizer(swipe)
+    }
+    
+    private func setupBindings() {
+        setupLanguageFrom()
+        setupLanguageTo()
+        setupToggleButton()
+    }
+    
+    private func setupLanguageFrom() {
+        viewModel?.currentLanguageFrom
+            .subscribe(onNext: { [unowned self] language in
+                self.translateFromButton.setTitle(language?.name?.capitalized, for: .normal)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupLanguageTo() {
+        viewModel?.currentLanguageTo
+            .subscribe(onNext: { [unowned self] language in
+                self.translateToButton.setTitle(language?.name?.capitalized, for: .normal)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupToggleButton() {
+        viewModel?.currentLanguageFrom
+            .subscribe(onNext: { [unowned self] language in
+                self.toggleLanguageButton.isEnabled = !(language?.code.isEmpty ?? true)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupNotificationCenter() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustForKeyboard),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(adjustForKeyboard),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func clearTextViewFrom() {
+        textViewFrom.text = nil
+    }
+
+    @objc
+    private func copyTextViewTo() {
+        UIPasteboard.general.string = textViewTo.text
+    }
+    
+    @objc
+    private func selectLanguageFrom() {
+        viewModel?.showSelectionLanguageFrom()
+    }
+    
+    @objc
+    private func selectLanguageTo() {
+        viewModel?.showSelectionLanguageTo()
+    }
+    
+    @objc
+    private func toggleLanguage() {
+        viewModel?.toggleLanguage()
     }
 
     @objc
@@ -184,16 +256,6 @@ class TranslateViewController: UIViewController {
         default:
             break
         }
-    }
-
-    @objc
-    private func clearTextViewFrom() {
-        textViewFrom.text = nil
-    }
-
-    @objc
-    func copyTextViewTo() {
-        UIPasteboard.general.string = textViewTo.text
     }
 
     @objc
