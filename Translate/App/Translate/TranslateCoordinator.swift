@@ -19,7 +19,10 @@ class TranslateCoordinator: Coordinator {
     var rootViewController: UIViewController?
 
     func start() {
-        let translateViewModel = TranslateViewModel(container: container, coordinator: self)
+        let translateViewModel = TranslateViewModel()
+        translateViewModel.translateService = container.resolve(TranslateService.self)
+        translateViewModel.historyService = container.resolve(HistoryService.self)
+        translateViewModel.coordinator = self
         let translateViewController = TranslateViewController()
         translateViewController.viewModel = translateViewModel
         let tabBarItemImage = UIImage(systemName: "globe")
@@ -30,21 +33,15 @@ class TranslateCoordinator: Coordinator {
         rootViewController = navigationController
     }
     
-    func showSelectionLanguageFrom(languages: [Language], currentLanguage: Language?) {
-        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self,
-                                                              languages: languages,
-                                                              currentLanguage: currentLanguage,
-                                                              languageType: .from)
+    func showSelectionSourceLanguage(languages: [Language], currentLanguage: Language?) {
+        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self, languages: languages, currentLanguage: currentLanguage, languageType: .source)
         let selectLanguageViewController = SelectLanguageViewController()
         selectLanguageViewController.viewModel = selectLanguageViewModel
         rootViewController?.present(selectLanguageViewController, animated: true)
     }
     
-    func showSelectionLanguageTo(languages: [Language], currentLanguage: Language?) {
-        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self,
-                                                              languages: languages,
-                                                              currentLanguage: currentLanguage,
-                                                              languageType: .to)
+    func showSelectionTargetLanguage(languages: [Language], currentLanguage: Language?) {
+        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self, languages: languages, currentLanguage: currentLanguage, languageType: .target)
         let selectLanguageViewController = SelectLanguageViewController()
         selectLanguageViewController.viewModel = selectLanguageViewModel
         rootViewController?.present(selectLanguageViewController, animated: true)
@@ -56,19 +53,21 @@ class TranslateCoordinator: Coordinator {
         }
     }
     
-    func hideSelectionLanguageFrom(selectedLanguage: Language) {
+    func hideSelectionSourceLanguage(selectedLanguage: Language) {
         if let rootViewController = rootViewController as? UINavigationController,
            let selectLanguageViewController = rootViewController.topViewController as? TranslateViewController {
-            selectLanguageViewController.viewModel.setCurrentLanguageFrom(language: selectedLanguage)
+            selectLanguageViewController.viewModel.setCurrentSourceLanguage(language: selectedLanguage)
         }
+        
         hideSelectionLanguage()
     }
     
-    func hideSelectionLanguageTo(selectedLanguage: Language) {
+    func hideSelectionTargetLanguage(selectedLanguage: Language) {
         if let rootViewController = rootViewController as? UINavigationController,
            let selectLanguageViewController = rootViewController.topViewController as? TranslateViewController {
-            selectLanguageViewController.viewModel.setCurrentLanguageTo(language: selectedLanguage)
+            selectLanguageViewController.viewModel.setCurrentTargetLanguage(language: selectedLanguage)
         }
+        
         hideSelectionLanguage()
     }
 

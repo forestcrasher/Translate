@@ -18,55 +18,58 @@ class TranslateViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupUI()
-        setupGestures()
         setupBindings()
-        setupNotificationCenter()
     }
 
     // MARK: - Private
-    private lazy var translateFromButton = UIButton()
-    private lazy var translateToButton = UIButton()
+    private lazy var sourceLanguageButton = UIButton()
+    private lazy var targetLanguageButton = UIButton()
     private lazy var toggleLanguageButton = UIButton()
-    private lazy var topButtons = UIStackView(arrangedSubviews: [translateFromButton, toggleLanguageButton, translateToButton])
+    private lazy var topButtons = UIStackView(arrangedSubviews: [sourceLanguageButton, toggleLanguageButton, targetLanguageButton])
     private lazy var topButtonsSeparator = UIView()
-    private lazy var textViewFrom = UITextView()
-    private lazy var textViewFromButton = UIButton()
-    private lazy var textViewFromSeparator = UIView()
-    private lazy var textViewTo = UITextView()
-    private lazy var textViewToButton = UIButton()
-    private lazy var activityIndicator = UIActivityIndicatorView()
+    private lazy var sourceTextView = UITextView()
+    private lazy var clearButton = UIButton()
+    private lazy var sourceSeparator = UIView()
+    private lazy var targetTextView = UITextView()
+    private lazy var copyButton = UIButton()
+    private lazy var activityIndicatorView = UIActivityIndicatorView()
     
     private var disposeBag = DisposeBag()
     
     private func setupUI() {
+
+        setupView()
+        setupTopButtons()
+        setupSourceText()
+        setupTargetText()
+        setupActivityIndicator()
+        setupGestures()
+        setupNotificationCenter()
+    }
+    
+    private func setupView() {
+        
         title = Constants.title
         view.backgroundColor = .systemBackground
-        
-        setupTopButtons()
-        setupTextViewFrom()
-        setupTextViewTo()
     }
-
+    
     private func setupTopButtons() {
-        translateFromButton.setTitle(Constants.translateFromButtonTitle, for: .normal)
-        translateFromButton.setTitleColor(Constants.normalColor, for: .normal)
-        translateFromButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
-        translateFromButton.contentHorizontalAlignment = .center
-        translateFromButton.addTarget(self, action: #selector(selectLanguageFrom), for: .touchUpInside)
+        
+        sourceLanguageButton.setTitle(Constants.sourceLanguageTitle, for: .normal)
+        sourceLanguageButton.setTitleColor(Constants.normalColor, for: .normal)
+        sourceLanguageButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
+        sourceLanguageButton.contentHorizontalAlignment = .center
 
-        translateToButton.setTitle(Constants.translateToButtonTitle, for: .normal)
-        translateToButton.setTitleColor(Constants.normalColor, for: .normal)
-        translateToButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
-        translateToButton.contentHorizontalAlignment = .center
-        translateToButton.addTarget(self, action: #selector(selectLanguageTo), for: .touchUpInside)
+        targetLanguageButton.setTitle(Constants.targetLanguageTitle, for: .normal)
+        targetLanguageButton.setTitleColor(Constants.normalColor, for: .normal)
+        targetLanguageButton.setTitleColor(Constants.highlightedColor, for: .highlighted)
+        targetLanguageButton.contentHorizontalAlignment = .center
 
-        let toggleLanguageButtonImage = UIImage(systemName: Constants.toggleButtonIcon)
-        toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Constants.normalColor), for: .normal)
-        toggleLanguageButton.setImage(toggleLanguageButtonImage?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal),
-                                      for: .highlighted)
-        toggleLanguageButton.addTarget(self, action: #selector(toggleLanguage), for: .touchUpInside)
+        let toggleLanguageIcon = UIImage(systemName: Constants.toggleButtonIcon)
+        toggleLanguageButton.setImage(toggleLanguageIcon?.withTintColor(Constants.normalColor), for: .normal)
+        toggleLanguageButton.setImage(toggleLanguageIcon?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
 
         topButtons.axis = .horizontal
         topButtons.spacing = 0.0
@@ -94,164 +97,196 @@ class TranslateViewController: UIViewController {
         }
     }
 
-    private func setupTextViewFrom() {
-        textViewFrom.isEditable = true
-        textViewFrom.font = .systemFont(ofSize: Constants.fontSize)
-        textViewFrom.textColor = .lightGray
-        textViewFrom.text = Constants.textViewFromPlaceholder
-        textViewFrom.translatesAutoresizingMaskIntoConstraints = false
-        textViewFrom.delegate = self
-        view.addSubview(textViewFrom)
+    private func setupSourceText() {
+        
+        sourceTextView.isEditable = true
+        sourceTextView.font = .systemFont(ofSize: Constants.fontSize)
+        sourceTextView.textColor = .lightGray
+        sourceTextView.text = Constants.sourceTextPlaceholder
+        sourceTextView.translatesAutoresizingMaskIntoConstraints = false
+        sourceTextView.delegate = self
+        view.addSubview(sourceTextView)
 
-        let textViewFromButtonImage = UIImage(systemName: Constants.clearButtonIcon)
-        textViewFromButton.setImage(textViewFromButtonImage?.withTintColor(Constants.normalColor), for: .normal)
-        textViewFromButton.setImage(textViewFromButtonImage?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal),
-                                    for: .highlighted)
-        textViewFromButton.isHidden = true
-        textViewFromButton.addTarget(self, action: #selector(clearTextViewFrom), for: .touchUpInside)
-        view.addSubview(textViewFromButton)
+        let clearButtonIcon = UIImage(systemName: Constants.clearButtonIcon)
+        clearButton.setImage(clearButtonIcon?.withTintColor(Constants.normalColor), for: .normal)
+        clearButton.setImage(clearButtonIcon?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
+        clearButton.isHidden = true
+        clearButton.addTarget(self, action: #selector(clearTextViewFrom), for: .touchUpInside)
+        view.addSubview(clearButton)
 
-        constrain(textViewFrom, topButtons, textViewFromButton, view) { textViewFrom, topButtons, textViewFromButton, view in
-            textViewFrom.top == topButtons.bottom + Constants.verticalPadding
-            textViewFrom.left == view.left + Constants.horizontalPadding
-            textViewFrom.right == textViewFromButton.left - Constants.horizontalPadding
-            textViewFrom.height == Constants.textViewHeight
-
-            textViewFromButton.top == topButtons.bottom + Constants.horizontalPadding
-            textViewFromButton.right == view.right - Constants.horizontalPadding
+        constrain(sourceTextView, topButtons, clearButton, view) { sourceTextView, topButtons, clearButton, view in
+            sourceTextView.top == topButtons.bottom + Constants.verticalPadding
+            sourceTextView.left == view.left + Constants.horizontalPadding
+            sourceTextView.right == clearButton.left - Constants.horizontalPadding
+            sourceTextView.height == Constants.textViewHeight
+            clearButton.top == topButtons.bottom + Constants.horizontalPadding
+            clearButton.right == view.right - Constants.horizontalPadding
         }
 
-        textViewFromSeparator.backgroundColor = .separator
-        textViewFromSeparator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(textViewFromSeparator)
+        sourceSeparator.backgroundColor = .separator
+        sourceSeparator.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(sourceSeparator)
 
-        constrain(textViewFromSeparator, textViewFrom, view) { textViewFromSeparator, textViewFrom, view in
-            textViewFromSeparator.top == textViewFrom.bottom + Constants.verticalPadding
-            textViewFromSeparator.left == view.left
-            textViewFromSeparator.right == view.right
-            textViewFromSeparator.height == Constants.separatorHeight
+        constrain(sourceSeparator, sourceTextView, view) { sourceSeparator, sourceTextView, view in
+            sourceSeparator.top == sourceTextView.bottom + Constants.verticalPadding
+            sourceSeparator.left == view.left
+            sourceSeparator.right == view.right
+            sourceSeparator.height == Constants.separatorHeight
         }
     }
 
-    private func setupTextViewTo() {
-        textViewTo.isEditable = false
-        textViewTo.font = .systemFont(ofSize: Constants.fontSize)
-        textViewTo.textColor = .label
-        textViewTo.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(textViewTo)
+    private func setupTargetText() {
+        
+        targetTextView.isEditable = false
+        targetTextView.font = .systemFont(ofSize: Constants.fontSize)
+        targetTextView.textColor = .label
+        targetTextView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(targetTextView)
 
-        let textViewToButtonImage = UIImage(systemName: Constants.copyButtonIcon)
-        textViewToButton.setImage(textViewToButtonImage?.withTintColor(Constants.normalColor), for: .normal)
-        textViewToButton.setImage(textViewToButtonImage?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
-        textViewToButton.isHidden = true
-        textViewToButton.addTarget(self, action: #selector(copyTextViewTo), for: .touchUpInside)
-        view.addSubview(textViewToButton)
+        let copyButtonIcon = UIImage(systemName: Constants.copyButtonIcon)
+        copyButton.setImage(copyButtonIcon?.withTintColor(Constants.normalColor), for: .normal)
+        copyButton.setImage(copyButtonIcon?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
+        copyButton.isHidden = true
+        copyButton.addTarget(self, action: #selector(copyTextViewTo), for: .touchUpInside)
+        view.addSubview(copyButton)
 
-        constrain(textViewTo, textViewFromSeparator, textViewToButton, view) { textViewTo, textViewFromSeparator, textViewToButton, view in
-            textViewTo.top == textViewFromSeparator.bottom + Constants.verticalPadding
-            textViewTo.left == view.left + Constants.horizontalPadding
-            textViewTo.right == textViewToButton.left - Constants.horizontalPadding
-            textViewTo.bottom == view.safeAreaLayoutGuide.bottom - Constants.verticalPadding
-
-            textViewToButton.top == textViewFromSeparator.bottom + Constants.horizontalPadding
-            textViewToButton.right == view.right - Constants.horizontalPadding
+        constrain(targetTextView, sourceSeparator, copyButton, view) { targetTextView, sourceSeparator, copyButton, view in
+            targetTextView.top == sourceSeparator.bottom + Constants.verticalPadding
+            targetTextView.left == view.left + Constants.horizontalPadding
+            targetTextView.right == copyButton.left - Constants.horizontalPadding
+            targetTextView.bottom == view.safeAreaLayoutGuide.bottom - Constants.verticalPadding
+            copyButton.top == sourceSeparator.bottom + Constants.horizontalPadding
+            copyButton.right == view.right - Constants.horizontalPadding
         }
+        
+        targetTextView.rx.text
+            .bind(onNext: { [unowned self] in
+                self.copyButton.isHidden = ($0?.isEmpty ?? true)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupActivityIndicator() {
+        
+        activityIndicatorView.hidesWhenStopped = true
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.center = view.center
     }
     
     private func setupGestures() {
+        
         setupTapGestureForDismissKeyboard()
-        setupSwipeGestureForClearTextViewFrom()
+        setupSwipeGestureForClearSourceText()
     }
 
     private func setupTapGestureForDismissKeyboard() {
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(TranslateViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
 
-    private func setupSwipeGestureForClearTextViewFrom() {
-        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(TranslateViewController.clearTextViewFromByGesture))
+    private func setupSwipeGestureForClearSourceText() {
+        
+        let swipe = UISwipeGestureRecognizer(target: self, action: #selector(TranslateViewController.clearSourceTextByGesture))
         swipe.direction = [.left]
-        textViewFrom.addGestureRecognizer(swipe)
+        sourceTextView.addGestureRecognizer(swipe)
+    }
+    
+    private func setupNotificationCenter() {
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     private func setupBindings() {
-        setupLanguageFrom()
-        setupLanguageTo()
-        setupToggleButton()
+        
+        setupViewModel()
+        setupSourceLanguageBinding()
+        setupTargetLanguageBinding()
+        setupToggleButtonBinding()
+        setupTranslationBinding()
+        setupActivityIndicatorBinding()
     }
     
-    private func setupLanguageFrom() {
-        viewModel?.currentLanguageFrom
-            .subscribe(onNext: { [unowned self] language in
-                self.translateFromButton.setTitle(language?.name?.capitalized, for: .normal)
+    private func setupViewModel() {
+        
+        viewModel.setup(with: TranslateViewModel.Input(
+            showSelectionSourceLanguage: sourceLanguageButton.rx.tap.asSignal(),
+            showSelectionTargetLanguage: targetLanguageButton.rx.tap.asSignal(),
+            toggleLanguage: toggleLanguageButton.rx.tap.asSignal(),
+            sourceText: sourceTextView.rx.text.orEmpty.asDriver()
+        ))
+    }
+    
+    private func setupSourceLanguageBinding() {
+        
+        viewModel?.currentSourceLanguage
+            .bind(onNext: { [unowned self] language in
+                self.sourceLanguageButton.setTitle(language?.name?.capitalized, for: .normal)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupLanguageTo() {
-        viewModel?.currentLanguageTo
-            .subscribe(onNext: { [unowned self] language in
-                self.translateToButton.setTitle(language?.name?.capitalized, for: .normal)
+    private func setupTargetLanguageBinding() {
+        
+        viewModel?.currentTargetLanguage
+            .bind(onNext: { [unowned self] language in
+                self.targetLanguageButton.setTitle(language?.name?.capitalized, for: .normal)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupToggleButton() {
-        viewModel?.currentLanguageFrom
-            .subscribe(onNext: { [unowned self] language in
+    private func setupToggleButtonBinding() {
+        
+        viewModel?.currentSourceLanguage
+            .bind(onNext: { [unowned self] language in
                 self.toggleLanguageButton.isEnabled = !(language?.code.isEmpty ?? true)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupNotificationCenter() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(adjustForKeyboard),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(adjustForKeyboard),
-                                               name: UIResponder.keyboardWillChangeFrameNotification,
-                                               object: nil)
+    private func setupTranslationBinding() {
+        
+        viewModel.translations
+            .bind(onNext: { [unowned self] in
+                self.targetTextView.text = $0.first?.text
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupActivityIndicatorBinding() {
+        
+        viewModel.isLoading
+            .bind(to: activityIndicatorView.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     @objc
     private func clearTextViewFrom() {
-        textViewFrom.text = nil
+        
+        sourceTextView.text = nil
     }
 
     @objc
     private func copyTextViewTo() {
-        UIPasteboard.general.string = textViewTo.text
-    }
-    
-    @objc
-    private func selectLanguageFrom() {
-        viewModel?.showSelectionLanguageFrom()
-    }
-    
-    @objc
-    private func selectLanguageTo() {
-        viewModel?.showSelectionLanguageTo()
-    }
-    
-    @objc
-    private func toggleLanguage() {
-        viewModel?.toggleLanguage()
+        
+        UIPasteboard.general.string = targetTextView.text
     }
 
     @objc
-    private func clearTextViewFromByGesture(_ sender: UISwipeGestureRecognizer) {
+    private func clearSourceTextByGesture(_ sender: UISwipeGestureRecognizer) {
+        
         switch sender.state {
         case .ended:
-            if textViewFrom.textColor != UIColor.lightGray {
-                textViewFrom.text = nil
-                textViewFromButton.isHidden = true
+            if sourceTextView.textColor != UIColor.lightGray {
+                sourceTextView.text = nil
+                clearButton.isHidden = true
             }
 
-            if !textViewFrom.isFirstResponder {
-                textViewFrom.textColor = .lightGray
-                textViewFrom.text = Constants.textViewFromPlaceholder
+            if !sourceTextView.isFirstResponder {
+                sourceTextView.textColor = .lightGray
+                sourceTextView.text = Constants.sourceTextPlaceholder
             }
         default:
             break
@@ -260,6 +295,7 @@ class TranslateViewController: UIViewController {
 
     @objc
     private func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        
         switch sender.state {
         case .ended:
             view.endEditing(true)
@@ -270,6 +306,7 @@ class TranslateViewController: UIViewController {
 
     @objc
     private func adjustForKeyboard(notification: Notification) {
+        
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
@@ -278,43 +315,43 @@ class TranslateViewController: UIViewController {
         let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
 
         if notification.name == UIResponder.keyboardWillHideNotification {
-            textViewTo.contentInset = .zero
+            targetTextView.contentInset = .zero
         } else {
-            textViewTo.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+            targetTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
         }
 
-        textViewTo.scrollIndicatorInsets = textViewTo.contentInset
+        targetTextView.scrollIndicatorInsets = targetTextView.contentInset
 
-        let selectedRange = textViewTo.selectedRange
-        textViewTo.scrollRangeToVisible(selectedRange)
+        let selectedRange = targetTextView.selectedRange
+        targetTextView.scrollRangeToVisible(selectedRange)
     }
 }
 
 extension TranslateViewController: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textViewFrom.textColor == UIColor.lightGray && textViewFrom.isFirstResponder {
-            textViewFrom.text = nil
-            textViewFrom.textColor = .label
+        
+        if sourceTextView.textColor == UIColor.lightGray && sourceTextView.isFirstResponder {
+            sourceTextView.text = nil
+            sourceTextView.textColor = .label
         }
 
-        textViewFromButton.isHidden = textViewFrom.text.isEmpty
+        clearButton.isHidden = sourceTextView.text.isEmpty
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textViewFrom.text.isEmpty {
-            textViewFrom.textColor = .lightGray
-            textViewFrom.text = Constants.textViewFromPlaceholder
+        
+        if sourceTextView.text.isEmpty {
+            sourceTextView.textColor = .lightGray
+            sourceTextView.text = Constants.sourceTextPlaceholder
         }
 
-        textViewFromButton.isHidden = true
+        clearButton.isHidden = true
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        textViewFromButton.isHidden = textViewFrom.text.isEmpty
-
-        textViewTo.text = textViewFrom.text
-        textViewToButton.isHidden = textViewTo.text == nil
+        
+        clearButton.isHidden = sourceTextView.text.isEmpty
     }
 }
 
@@ -335,7 +372,7 @@ private enum Constants {
     static let copyButtonIcon = "square.on.square"
 
     static let title = "Translate"
-    static let translateFromButtonTitle = "Russian"
-    static let translateToButtonTitle = "English"
-    static let textViewFromPlaceholder = "Enter text"
+    static let sourceLanguageTitle = "Russian"
+    static let targetLanguageTitle = "English"
+    static let sourceTextPlaceholder = "Enter text⁣"
 }

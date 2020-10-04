@@ -37,6 +37,7 @@ class SelectLanguageViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
+        
         let navigationItem = UINavigationItem()
         let closeButton = UIButton()
         let closeButtonImage = UIImage(systemName: Constants.closeIcon)
@@ -56,6 +57,7 @@ class SelectLanguageViewController: UIViewController {
     }
     
     private func setupTableView() {
+        
         tableView.separatorInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
         tableView.register(LanguageCell.self, forCellReuseIdentifier: Constants.languageCell)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,17 +72,19 @@ class SelectLanguageViewController: UIViewController {
     }
     
     private func setupBindings() {
+        
         setupTitle()
         setupTableViewCells()
     }
     
     private func setupTitle() {
+        
         viewModel.languageType
             .subscribe(onNext: { [unowned self] languageType in
                 switch languageType {
-                case .from:
+                case .source:
                     self.navigationBar.items?.first?.title = Constants.titleFrom
-                case .to:
+                case .target:
                     self.navigationBar.items?.first?.title = Constants.titleTo
                 }
             })
@@ -88,6 +92,7 @@ class SelectLanguageViewController: UIViewController {
     }
     
     private func setupTableViewCells() {
+        
         viewModel.languages
             .bind(to: tableView.rx.items(cellIdentifier: Constants.languageCell,
                                          cellType: LanguageCell.self)) {

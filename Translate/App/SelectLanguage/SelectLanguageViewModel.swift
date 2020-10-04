@@ -25,19 +25,20 @@ class SelectLanguageViewModel {
     // MARK: - Public
     var languages = BehaviorRelay<[Language]>(value: [])
     var currentLanguage = BehaviorRelay<Language?>(value: nil)
-    var languageType = BehaviorRelay<LanguageType>(value: .from)
+    var languageType = BehaviorRelay<LanguageType>(value: .source)
     
     enum LanguageType {
-        case from
-        case to
+        
+        case source
+        case target
     }
     
     func selectLanguage(language: Language) {
         switch languageType.value {
-        case .from:
-            coordinator?.hideSelectionLanguageFrom(selectedLanguage: language)
-        case .to:
-            coordinator?.hideSelectionLanguageTo(selectedLanguage: language)
+        case .source:
+            coordinator?.hideSelectionSourceLanguage(selectedLanguage: language)
+        case .target:
+            coordinator?.hideSelectionTargetLanguage(selectedLanguage: language)
         }
     }
     
