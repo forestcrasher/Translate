@@ -12,3 +12,10 @@ struct Language: Decodable {
     let code: String
     let name: String?
 }
+
+extension Language: Equatable {
+    
+    static func == (lhs: Language, rhs: Language) -> Bool {
+        return lhs.code == rhs.code
+    }
+}
