@@ -19,6 +19,7 @@ class AppCoordinator: Coordinator {
     var rootViewController: UIViewController?
 
     func start() {
+        
         if let welcomeViewContraoller = R.storyboard.welcome().instantiateInitialViewController() as? WelcomeViewController {
             let welcomeViewModel = WelcomeViewModel()
             welcomeViewModel.coordinator = self
@@ -28,28 +29,27 @@ class AppCoordinator: Coordinator {
             navigationController?.viewControllers = [welcomeViewContraoller]
             navigationController?.navigationBar.isHidden = true
             rootViewController = navigationController
-
-            showTabBar(selectedTab: .translate)
         }
     }
 
-    enum Tab: Int {
-
-        case translate = 0
-        case history
+    func showTranslate() {
+        
+        let tabBar = TabBarCoordinator(container: container)
+        tabBar.start()
+        tabBar.selectTab(tab: .translate)
+        
+        if let tabBarController = tabBar.rootViewController {
+            navigationController?.pushViewController(tabBarController, animated: true)
+        }
     }
-
-    func showTabBar(selectedTab: Tab) {
-        let translate = TranslateCoordinator(container: container)
-        let history = HistoryCoordinator(container: container)
-        translate.start()
-        history.start()
-
-        if let translateViewController = translate.rootViewController, let historyViewController = history.rootViewController {
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [translateViewController, historyViewController]
-            tabBarController.selectedIndex = selectedTab.rawValue
-            tabBarController.navigationItem.hidesBackButton = true
+    
+    func showHistory() {
+        
+        let tabBar = TabBarCoordinator(container: container)
+        tabBar.start()
+        tabBar.selectTab(tab: .history)
+        
+        if let tabBarController = tabBar.rootViewController {
             navigationController?.pushViewController(tabBarController, animated: true)
         }
     }

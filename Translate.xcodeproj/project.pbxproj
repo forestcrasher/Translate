@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		940C2E888DA741856D9E1679 /* Pods_Translate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C814F76915017DA63D25D695 /* Pods_Translate.framework */; };
 		C0581C872525023000293F4F /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0581C862525023000293F4F /* LanguageCell.swift */; };
+		C07887F1252B92E000B876C5 /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07887F0252B92E000B876C5 /* TabBarCoordinator.swift */; };
 		C09F4EA0252350EB003E51EE /* SelectionLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09F4E9F252350EB003E51EE /* SelectionLanguageViewController.swift */; };
 		C0CCBAF225245528003993CE /* SelectionLanguageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CCBAF125245528003993CE /* SelectionLanguageViewModel.swift */; };
 		E605634F2505728700F72C91 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605634E2505728700F72C91 /* AppCoordinator.swift */; };
@@ -48,6 +49,7 @@
 /* Begin PBXFileReference section */
 		7347EE785A44357B533E5788 /* Pods-Translate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate.release.xcconfig"; path = "Target Support Files/Pods-Translate/Pods-Translate.release.xcconfig"; sourceTree = "<group>"; };
 		C0581C862525023000293F4F /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
+		C07887F0252B92E000B876C5 /* TabBarCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		C09F4E9F252350EB003E51EE /* SelectionLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLanguageViewController.swift; sourceTree = "<group>"; };
 		C0CCBAF125245528003993CE /* SelectionLanguageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLanguageViewModel.swift; sourceTree = "<group>"; };
 		C814F76915017DA63D25D695 /* Pods_Translate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Translate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +117,14 @@
 				7347EE785A44357B533E5788 /* Pods-Translate.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C07887EF252B92C900B876C5 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				C07887F0252B92E000B876C5 /* TabBarCoordinator.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		C09F4E9E25235063003E51EE /* SelectionLanguage */ = {
@@ -217,6 +227,7 @@
 		E63782DB2503F3530001321D /* App */ = {
 			isa = PBXGroup;
 			children = (
+				C07887EF252B92C900B876C5 /* TabBar */,
 				E63782DC2503F3610001321D /* Welcome */,
 				E63782DD2503F36D0001321D /* Translate */,
 				E63782DE2503F3840001321D /* History */,
@@ -482,6 +493,7 @@
 				E605634F2505728700F72C91 /* AppCoordinator.swift in Sources */,
 				E605635B250574EE00F72C91 /* TranslateService.swift in Sources */,
 				E60563552505747600F72C91 /* TranslateViewModel.swift in Sources */,
+				C07887F1252B92E000B876C5 /* TabBarCoordinator.swift in Sources */,
 				C0581C872525023000293F4F /* LanguageCell.swift in Sources */,
 				E61AF2FE25167BCB00AB7107 /* TranslateServiceError.swift in Sources */,
 				E664DD002506910A004DCB1D /* Coordinator.swift in Sources */,

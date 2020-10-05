@@ -22,17 +22,12 @@ class HistoryCoordinator: Coordinator {
         let historyViewModel = HistoryViewModel()
         historyViewModel.historyService = container.resolve(HistoryService.self)
         historyViewModel.coordinator = self
-
         let historyViewController = HistoryViewController()
         let tabBarItemImage = UIImage(systemName: "book")
         historyViewController.tabBarItem = UITabBarItem(title: "History", image: tabBarItemImage, selectedImage: tabBarItemImage)
-
-        navigationController = UINavigationController()
-        navigationController?.viewControllers = [historyViewController]
-        rootViewController = navigationController
+        rootViewController = historyViewController
     }
 
     // MARK: - Private
     private var container: Container
-    private var navigationController: UINavigationController?
 }

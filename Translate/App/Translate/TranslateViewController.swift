@@ -111,7 +111,7 @@ class TranslateViewController: UIViewController {
         clearButton.setImage(clearButtonIcon?.withTintColor(Constants.normalColor), for: .normal)
         clearButton.setImage(clearButtonIcon?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
         clearButton.isHidden = true
-        clearButton.addTarget(self, action: #selector(clearTextViewFrom), for: .touchUpInside)
+        clearButton.addTarget(self, action: #selector(clearSourceText), for: .touchUpInside)
         view.addSubview(clearButton)
 
         constrain(sourceTextView, topButtons, clearButton, view) { sourceTextView, topButtons, clearButton, view in
@@ -205,7 +205,8 @@ class TranslateViewController: UIViewController {
         setupSourceLanguageBinding()
         setupTargetLanguageBinding()
         setupToggleButtonBinding()
-        setupTranslationBinding()
+        setupSourceTextBinding()
+        setupTargetTextBinding()
         setupActivityIndicatorBinding()
     }
     
@@ -221,7 +222,7 @@ class TranslateViewController: UIViewController {
     
     private func setupSourceLanguageBinding() {
         
-        viewModel?.currentSourceLanguage
+        viewModel.currentSourceLanguage
             .bind(onNext: { [unowned self] language in
                 self.sourceLanguageButton.setTitle(language?.name?.capitalized, for: .normal)
             })
@@ -230,7 +231,7 @@ class TranslateViewController: UIViewController {
     
     private func setupTargetLanguageBinding() {
         
-        viewModel?.currentTargetLanguage
+        viewModel.currentTargetLanguage
             .bind(onNext: { [unowned self] language in
                 self.targetLanguageButton.setTitle(language?.name?.capitalized, for: .normal)
             })
@@ -239,19 +240,24 @@ class TranslateViewController: UIViewController {
     
     private func setupToggleButtonBinding() {
         
-        viewModel?.currentSourceLanguage
+        viewModel.currentSourceLanguage
             .bind(onNext: { [unowned self] language in
                 self.toggleLanguageButton.isEnabled = !(language?.code.isEmpty ?? true)
             })
             .disposed(by: disposeBag)
     }
     
-    private func setupTranslationBinding() {
+    private func setupSourceTextBinding() {
         
-        viewModel.translations
-            .bind(onNext: { [unowned self] in
-                self.targetTextView.text = $0.first?.text
-            })
+        viewModel.sourceText
+            .bind(to: sourceTextView.rx.text)
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupTargetTextBinding() {
+    
+        viewModel.targetText
+            .bind(to: targetTextView.rx.text)
             .disposed(by: disposeBag)
     }
     
@@ -263,9 +269,18 @@ class TranslateViewController: UIViewController {
     }
     
     @objc
-    private func clearTextViewFrom() {
+    private func clearSourceText() {
         
-        sourceTextView.text = nil
+        if sourceTextView.textColor != UIColor.lightGray {
+            sourceTextView.text = nil
+            targetTextView.text = nil
+            clearButton.isHidden = true
+        }
+
+        if !sourceTextView.isFirstResponder {
+            sourceTextView.textColor = .lightGray
+            sourceTextView.text = Constants.sourceTextPlaceholder
+        }
     }
 
     @objc
@@ -279,15 +294,7 @@ class TranslateViewController: UIViewController {
         
         switch sender.state {
         case .ended:
-            if sourceTextView.textColor != UIColor.lightGray {
-                sourceTextView.text = nil
-                clearButton.isHidden = true
-            }
-
-            if !sourceTextView.isFirstResponder {
-                sourceTextView.textColor = .lightGray
-                sourceTextView.text = Constants.sourceTextPlaceholder
-            }
+            clearSourceText()
         default:
             break
         }

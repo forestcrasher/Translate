@@ -34,41 +34,13 @@ class TranslateViewModel {
     let targetLanguages = BehaviorRelay<[Language]>(value: [])
     let currentSourceLanguage = BehaviorRelay<Language?>(value: nil)
     let currentTargetLanguage = BehaviorRelay<Language?>(value: nil)
-    let translations = BehaviorRelay<[Translation]>(value: [])
+    let sourceText = BehaviorRelay<String>(value: "")
+    let targetText = BehaviorRelay<String>(value: "")
     let isLoading = BehaviorRelay<Bool>(value: false)
     
     func setup(with input: Input) {
         
         loadLanguages()
-        
-        Observable
-            .combineLatest(
-                input.sourceText.asObservable().flatMap { sourceText -> Observable<String> in
-                    if !sourceText.isEmpty && sourceText != "Enter text⁣" {
-                        return input.sourceText.asObservable().debounce(.seconds(2), scheduler: MainScheduler.instance)
-                    } else {
-                        return input.sourceText.asObservable()
-                    }
-                },
-                self.currentSourceLanguage.asObservable(),
-                self.currentTargetLanguage.asObservable()
-            )
-            .flatMap { [unowned self] sourceText, currentLanguageFrom, currentLanguageTo -> Observable<[Translation]> in
-                self.isLoading.accept(true)
-                return !sourceText.isEmpty && sourceText != "Enter text⁣"
-                    ? (self.translateService?.translate(sourceLanguageCode: currentLanguageFrom?.code ?? "", targetLanguageCode: currentLanguageTo?.code ?? "", text: sourceText))!
-                    : Observable.just([emptyTranslation])
-            }
-            .bind(onNext: { [unowned self] in
-                if let detectedLanguageCode = $0.first?.detectedLanguageCode {
-                    if let detectedLanguage = sourceLanguages.value.first(where: { $0.code == detectedLanguageCode }) {
-                        currentSourceLanguage.accept(detectedLanguage)
-                    }
-                }
-                translations.accept($0)
-                isLoading.accept(false)
-            })
-            .disposed(by: disposeBag)
         
         input.showSelectionSourceLanguage
             .emit(onNext: { [unowned self] in
@@ -85,6 +57,35 @@ class TranslateViewModel {
         input.toggleLanguage
             .emit(onNext: { [unowned self] in
                 self.toggleLanguage()
+            })
+            .disposed(by: disposeBag)
+        
+        input.sourceText
+            .asObservable()
+            .bind(to: self.sourceText)
+            .disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(
+                self.sourceText.asObservable(),
+                self.currentSourceLanguage.asObservable(),
+                self.currentTargetLanguage.asObservable()
+            )
+            .debounce(.seconds(1), scheduler: MainScheduler.asyncInstance)
+            .flatMap { [unowned self] sourceText, currentLanguageFrom, currentLanguageTo -> Observable<[Translation]> in
+                self.isLoading.accept(true)
+                return !sourceText.isEmpty && sourceText != "Enter text⁣"
+                    ? (self.translateService?.translate(sourceLanguageCode: currentLanguageFrom?.code ?? "", targetLanguageCode: currentLanguageTo?.code ?? "", text: sourceText))!
+                    : Observable.just([emptyTranslation])
+            }
+            .subscribe(onNext: { [unowned self] in
+                if let detectedLanguageCode = $0.first?.detectedLanguageCode {
+                    if let detectedLanguage = sourceLanguages.value.first(where: { $0.code == detectedLanguageCode }) {
+                        currentSourceLanguage.accept(detectedLanguage)
+                    }
+                }
+                self.targetText.accept($0.first?.text ?? "")
+                self.isLoading.accept(false)
             })
             .disposed(by: disposeBag)
     }
@@ -116,9 +117,12 @@ class TranslateViewModel {
     
     private func toggleLanguage() {
         
-        let temp = currentSourceLanguage.value
+        let tempLanuguage = currentSourceLanguage.value
         currentSourceLanguage.accept(currentTargetLanguage.value)
-        currentTargetLanguage.accept(temp)
+        currentTargetLanguage.accept(tempLanuguage)
+        
+        sourceText.accept(targetText.value)
+        targetText.accept("")
     }
     
     private func loadLanguages() {
