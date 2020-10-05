@@ -25,8 +25,8 @@ class TranslateCoordinator: Coordinator {
         translateViewModel.coordinator = self
         let translateViewController = TranslateViewController()
         translateViewController.viewModel = translateViewModel
-        let tabBarItemImage = UIImage(systemName: "globe")
-        translateViewController.tabBarItem = UITabBarItem(title: "Translate", image: tabBarItemImage, selectedImage: tabBarItemImage)
+        let tabBarItemImage = UIImage(systemName: Constants.translateIcon)
+        translateViewController.tabBarItem = UITabBarItem(title: Constants.translateTitle, image: tabBarItemImage, selectedImage: tabBarItemImage)
 
         navigationController = UINavigationController()
         navigationController?.viewControllers = [translateViewController]
@@ -34,15 +34,17 @@ class TranslateCoordinator: Coordinator {
     }
     
     func showSelectionSourceLanguage(languages: [Language], currentLanguage: Language?) {
-        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self, languages: languages, currentLanguage: currentLanguage, languageType: .source)
-        let selectLanguageViewController = SelectLanguageViewController()
+        let selectLanguageViewModel = SelectionLanguageViewModel(languages: languages, currentLanguage: currentLanguage, languageType: .source)
+        selectLanguageViewModel.coordinator = self
+        let selectLanguageViewController = SelectionLanguageViewController()
         selectLanguageViewController.viewModel = selectLanguageViewModel
         rootViewController?.present(selectLanguageViewController, animated: true)
     }
     
     func showSelectionTargetLanguage(languages: [Language], currentLanguage: Language?) {
-        let selectLanguageViewModel = SelectLanguageViewModel(coordinator: self, languages: languages, currentLanguage: currentLanguage, languageType: .target)
-        let selectLanguageViewController = SelectLanguageViewController()
+        let selectLanguageViewModel = SelectionLanguageViewModel(languages: languages, currentLanguage: currentLanguage, languageType: .target)
+        selectLanguageViewModel.coordinator = self
+        let selectLanguageViewController = SelectionLanguageViewController()
         selectLanguageViewController.viewModel = selectLanguageViewModel
         rootViewController?.present(selectLanguageViewController, animated: true)
     }
@@ -74,4 +76,10 @@ class TranslateCoordinator: Coordinator {
     // MARK: - Private
     private var container: Container
     private var navigationController: UINavigationController?
+}
+
+private enum Constants {
+
+    static let translateTitle = "Translate"
+    static let translateIcon = "globe"
 }

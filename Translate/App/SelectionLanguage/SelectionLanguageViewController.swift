@@ -1,5 +1,5 @@
 //
-//  SelectLanguageViewController.swift
+//  SelectionLanguageViewController.swift
 //  Translate
 //
 //  Created by Anton Pryakhin on 29.09.2020.
@@ -10,10 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SelectLanguageViewController: UIViewController {
+class SelectionLanguageViewController: UIViewController {
     
     // MARK: - ViewModel
-    var viewModel: SelectLanguageViewModel!
+    var viewModel: SelectionLanguageViewModel!
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -25,25 +25,29 @@ class SelectLanguageViewController: UIViewController {
     
     // MARK: - Private
     private lazy var navigationBar = UINavigationBar()
+    private lazy var closeButton = UIButton()
     private lazy var tableView = UITableView()
     
     private let disposeBag = DisposeBag()
     
     private func setupUI() {
-        view.backgroundColor = .systemBackground
         
+        setupView()
         setupNavigationBar()
         setupTableView()
+    }
+    
+    private func setupView() {
+        
+        view.backgroundColor = .systemBackground
     }
 
     private func setupNavigationBar() {
         
         let navigationItem = UINavigationItem()
-        let closeButton = UIButton()
-        let closeButtonImage = UIImage(systemName: Constants.closeIcon)
-        closeButton.setImage(closeButtonImage?.withTintColor(Constants.normalColor), for: .normal)
-        closeButton.setImage(closeButtonImage?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
-        closeButton.addTarget(self, action: #selector(touchClose), for: .touchUpInside)
+        let closeIcon = UIImage(systemName: Constants.closeIcon)
+        closeButton.setImage(closeIcon?.withTintColor(Constants.normalColor), for: .normal)
+        closeButton.setImage(closeIcon?.withTintColor(Constants.highlightedColor, renderingMode: .alwaysOriginal), for: .highlighted)
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
         navigationBar.setItems([navigationItem], animated: true)
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -73,14 +77,23 @@ class SelectLanguageViewController: UIViewController {
     
     private func setupBindings() {
         
+        setupViewModel()
         setupTitle()
         setupTableViewCells()
+    }
+    
+    private func setupViewModel() {
+        
+        viewModel.setup(with: SelectionLanguageViewModel.Input(
+            selectLanguage: tableView.rx.modelSelected(Language.self).asSignal(),
+            close: closeButton.rx.tap.asSignal()
+        ))
     }
     
     private func setupTitle() {
         
         viewModel.languageType
-            .subscribe(onNext: { [unowned self] languageType in
+            .bind(onNext: { [unowned self] languageType in
                 switch languageType {
                 case .source:
                     self.navigationBar.items?.first?.title = Constants.titleFrom
@@ -101,18 +114,6 @@ class SelectLanguageViewController: UIViewController {
                 cell.isCheckmarked = element == self.viewModel.currentLanguage.value
             }
             .disposed(by: disposeBag)
-        
-        tableView.rx
-             .modelSelected(Language.self)
-             .subscribe(onNext: { [unowned self] language in
-                self.viewModel.selectLanguage(language: language)
-             })
-             .disposed(by: disposeBag)
-    }
-    
-    @objc
-    private func touchClose() {
-        viewModel.close()
     }
 }
 

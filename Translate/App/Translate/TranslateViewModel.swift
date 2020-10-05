@@ -19,6 +19,7 @@ class TranslateViewModel {
 
     // MARK: - Input
     struct Input {
+        
         let showSelectionSourceLanguage: Signal<Void>
         let showSelectionTargetLanguage: Signal<Void>
         let toggleLanguage: Signal<Void>
@@ -37,11 +38,18 @@ class TranslateViewModel {
     let isLoading = BehaviorRelay<Bool>(value: false)
     
     func setup(with input: Input) {
+        
         loadLanguages()
         
         Observable
             .combineLatest(
-                input.sourceText.asObservable().debounce(.seconds(1), scheduler: MainScheduler.instance),
+                input.sourceText.asObservable().flatMap { sourceText -> Observable<String> in
+                    if !sourceText.isEmpty && sourceText != "Enter text⁣" {
+                        return input.sourceText.asObservable().debounce(.seconds(2), scheduler: MainScheduler.instance)
+                    } else {
+                        return input.sourceText.asObservable()
+                    }
+                },
                 self.currentSourceLanguage.asObservable(),
                 self.currentTargetLanguage.asObservable()
             )

@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		940C2E888DA741856D9E1679 /* Pods_Translate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C814F76915017DA63D25D695 /* Pods_Translate.framework */; };
 		C0581C872525023000293F4F /* LanguageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0581C862525023000293F4F /* LanguageCell.swift */; };
-		C09F4EA0252350EB003E51EE /* SelectLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09F4E9F252350EB003E51EE /* SelectLanguageViewController.swift */; };
-		C0CCBAF225245528003993CE /* SelectLanguageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CCBAF125245528003993CE /* SelectLanguageViewModel.swift */; };
+		C09F4EA0252350EB003E51EE /* SelectionLanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09F4E9F252350EB003E51EE /* SelectionLanguageViewController.swift */; };
+		C0CCBAF225245528003993CE /* SelectionLanguageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0CCBAF125245528003993CE /* SelectionLanguageViewModel.swift */; };
 		E605634F2505728700F72C91 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E605634E2505728700F72C91 /* AppCoordinator.swift */; };
 		E60563532505745E00F72C91 /* TranslateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60563522505745E00F72C91 /* TranslateViewController.swift */; };
 		E60563552505747600F72C91 /* TranslateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E60563542505747600F72C91 /* TranslateViewModel.swift */; };
@@ -48,8 +48,8 @@
 /* Begin PBXFileReference section */
 		7347EE785A44357B533E5788 /* Pods-Translate.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Translate.release.xcconfig"; path = "Target Support Files/Pods-Translate/Pods-Translate.release.xcconfig"; sourceTree = "<group>"; };
 		C0581C862525023000293F4F /* LanguageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageCell.swift; sourceTree = "<group>"; };
-		C09F4E9F252350EB003E51EE /* SelectLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewController.swift; sourceTree = "<group>"; };
-		C0CCBAF125245528003993CE /* SelectLanguageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectLanguageViewModel.swift; sourceTree = "<group>"; };
+		C09F4E9F252350EB003E51EE /* SelectionLanguageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLanguageViewController.swift; sourceTree = "<group>"; };
+		C0CCBAF125245528003993CE /* SelectionLanguageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionLanguageViewModel.swift; sourceTree = "<group>"; };
 		C814F76915017DA63D25D695 /* Pods_Translate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Translate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E605634E2505728700F72C91 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		E60563522505745E00F72C91 /* TranslateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslateViewController.swift; sourceTree = "<group>"; };
@@ -117,14 +117,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		C09F4E9E25235063003E51EE /* SelectLanguage */ = {
+		C09F4E9E25235063003E51EE /* SelectionLanguage */ = {
 			isa = PBXGroup;
 			children = (
-				C09F4E9F252350EB003E51EE /* SelectLanguageViewController.swift */,
-				C0CCBAF125245528003993CE /* SelectLanguageViewModel.swift */,
+				C09F4E9F252350EB003E51EE /* SelectionLanguageViewController.swift */,
+				C0CCBAF125245528003993CE /* SelectionLanguageViewModel.swift */,
 				C0581C862525023000293F4F /* LanguageCell.swift */,
 			);
-			path = SelectLanguage;
+			path = SelectionLanguage;
 			sourceTree = "<group>";
 		};
 		E61AF2F92516791E00AB7107 /* TranslateService */ = {
@@ -220,7 +220,7 @@
 				E63782DC2503F3610001321D /* Welcome */,
 				E63782DD2503F36D0001321D /* Translate */,
 				E63782DE2503F3840001321D /* History */,
-				C09F4E9E25235063003E51EE /* SelectLanguage */,
+				C09F4E9E25235063003E51EE /* SelectionLanguage */,
 				E605634E2505728700F72C91 /* AppCoordinator.swift */,
 				E63782C32503DDA40001321D /* AppDelegate.swift */,
 				E63782CE2503DDAC0001321D /* LaunchScreen.storyboard */,
@@ -471,7 +471,7 @@
 				E61AF2F42516786900AB7107 /* ListLanguagesResponse.swift in Sources */,
 				E6DE54052517BA0E00105D87 /* DetectLanguageResponse.swift in Sources */,
 				E6DE54102517D08000105D87 /* ListLanguagesRequest.swift in Sources */,
-				C09F4EA0252350EB003E51EE /* SelectLanguageViewController.swift in Sources */,
+				C09F4EA0252350EB003E51EE /* SelectionLanguageViewController.swift in Sources */,
 				E6DE540B2517BCEF00105D87 /* Translation.swift in Sources */,
 				E61AF2F72516790400AB7107 /* Language.swift in Sources */,
 				E6DE54162517D0BE00105D87 /* TranslateRequest.swift in Sources */,
@@ -492,7 +492,7 @@
 				E6DE53FA2517313C00105D87 /* AuthorizationService.swift in Sources */,
 				E6056359250574B100F72C91 /* HistoryViewModel.swift in Sources */,
 				E664DCFB25068133004DCB1D /* TranslateCoordinator.swift in Sources */,
-				C0CCBAF225245528003993CE /* SelectLanguageViewModel.swift in Sources */,
+				C0CCBAF225245528003993CE /* SelectionLanguageViewModel.swift in Sources */,
 				E61AF30225167C3200AB7107 /* Reachability.swift in Sources */,
 				E6DE53FD2517A2A100105D87 /* AuthorizationServiceError.swift in Sources */,
 				E664DCFD25068150004DCB1D /* HistoryCoodinator.swift in Sources */,

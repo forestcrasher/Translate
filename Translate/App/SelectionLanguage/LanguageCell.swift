@@ -15,6 +15,7 @@ class LanguageCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     
         addSubview(checkmarkImageView)
+        
         constrain(checkmarkImageView, self) { checkmarkImageView, view in
             checkmarkImageView.width == Constants.iconWidth
             checkmarkImageView.height == Constants.iconHeight
