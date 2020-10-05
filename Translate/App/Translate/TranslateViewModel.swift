@@ -43,7 +43,8 @@ class TranslateViewModel {
             .combineLatest(
                 input.sourceText.asObservable().debounce(.seconds(1), scheduler: MainScheduler.instance),
                 self.currentSourceLanguage.asObservable(),
-                self.currentTargetLanguage.asObservable())
+                self.currentTargetLanguage.asObservable()
+            )
             .flatMap { [unowned self] sourceText, currentLanguageFrom, currentLanguageTo -> Observable<[Translation]> in
                 self.isLoading.accept(true)
                 return !sourceText.isEmpty && sourceText != "Enter text⁣"
@@ -51,6 +52,11 @@ class TranslateViewModel {
                     : Observable.just([emptyTranslation])
             }
             .bind(onNext: { [unowned self] in
+                if let detectedLanguageCode = $0.first?.detectedLanguageCode {
+                    if let detectedLanguage = sourceLanguages.value.first(where: { $0.code == detectedLanguageCode }) {
+                        currentSourceLanguage.accept(detectedLanguage)
+                    }
+                }
                 translations.accept($0)
                 isLoading.accept(false)
             })
@@ -76,6 +82,7 @@ class TranslateViewModel {
     }
     
     func setCurrentSourceLanguage(language: Language) {
+        
         if language == currentTargetLanguage.value, currentSourceLanguage.value != automaticLanguage {
             toggleLanguage()
         } else {
@@ -84,6 +91,7 @@ class TranslateViewModel {
     }
     
     func setCurrentTargetLanguage(language: Language) {
+        
         if language == currentSourceLanguage.value {
             toggleLanguage()
         } else {
@@ -99,36 +107,14 @@ class TranslateViewModel {
     private let emptyTranslation = Translation(text: "", detectedLanguageCode: nil)
     
     private func toggleLanguage() {
+        
         let temp = currentSourceLanguage.value
         currentSourceLanguage.accept(currentTargetLanguage.value)
         currentTargetLanguage.accept(temp)
     }
     
-//    private func setup() {
-//        translateService?.detectLanguage(text: "Hello")?
-//            .subscribe(onNext: { languageCode in
-//                print(languageCode)
-//            }, onError: { error in
-//                if let error = error as? TranslateServiceError {
-//                    print(error.localizedDescription)
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//
-//        translateService?.translate(sourceLanguageCode: "en", targetLanguageCode: "ru", text: "Hello")?
-//            .subscribe(onNext: { translations in
-//                if let translation = translations.first {
-//                    print(translation)
-//                }
-//            }, onError: { error in
-//                if let error = error as? TranslateServiceError {
-//                    print(error.localizedDescription)
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//    }
-    
     private func loadLanguages() {
+        
         translateService?.listLanguages()?
             .subscribe(onNext: { [unowned self] languages in
                 let filteredLanguages = languages.filter { !($0.name?.isEmpty ?? true) }
