@@ -21,7 +21,7 @@ class TabBarCoordinator: Coordinator {
     enum Tab: Int {
 
         case translate = 0
-        case history
+        case favourites
     }
     
     func start() {
@@ -30,12 +30,12 @@ class TabBarCoordinator: Coordinator {
         tabBarController.navigationItem.hidesBackButton = true
 
         let translate = TranslateCoordinator(container: container)
-        let history = HistoryCoordinator(container: container)
+        let favourites = FavouritesCoordinator(container: container)
         translate.start()
-        history.start()
+        favourites.start()
 
-        if let translateViewController = translate.rootViewController, let historyViewConroller = history.rootViewController {
-            tabBarController.viewControllers = [translateViewController, historyViewConroller].map {
+        if let translateViewController = translate.rootViewController, let favouritesViewConroller = favourites.rootViewController {
+            tabBarController.viewControllers = [translateViewController, favouritesViewConroller].map {
                 UINavigationController(rootViewController: $0)
             }
         }

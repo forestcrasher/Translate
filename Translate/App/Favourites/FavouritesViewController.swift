@@ -1,5 +1,5 @@
 //
-//  HistoryViewController.swift
+//  FavouritesViewController.swift
 //  Translate
 //
 //  Created by Anton Pryakhin on 06.09.2020.
@@ -8,10 +8,10 @@
 import Cartography
 import UIKit
 
-class HistoryViewController: UIViewController {
+class FavouritesViewController: UIViewController {
 
     // MARK: - ViewModel
-    var viewModel: HistoryViewModel!
+    var viewModel: FavouritesViewModel!
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -41,5 +41,5 @@ class HistoryViewController: UIViewController {
 
 private enum Constants {
 
-    static let title = "History"
+    static let title = "Favourites"
 }

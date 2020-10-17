@@ -22,7 +22,7 @@ class TranslateCoordinator: Coordinator {
         
         let translateViewModel = TranslateViewModel()
         translateViewModel.translateService = container.resolve(TranslateService.self)
-        translateViewModel.historyService = container.resolve(HistoryService.self)
+        translateViewModel.favouritesService = container.resolve(FavouritesService.self)
         translateViewModel.coordinator = self
         let translateViewController = TranslateViewController()
         translateViewController.viewModel = translateViewModel

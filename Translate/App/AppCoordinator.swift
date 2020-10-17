@@ -43,11 +43,11 @@ class AppCoordinator: Coordinator {
         }
     }
     
-    func showHistory() {
+    func showFavourites() {
         
         let tabBar = TabBarCoordinator(container: container)
         tabBar.start()
-        tabBar.selectTab(tab: .history)
+        tabBar.selectTab(tab: .favourites)
         
         if let tabBarController = tabBar.rootViewController {
             navigationController?.pushViewController(tabBarController, animated: true)

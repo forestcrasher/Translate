@@ -14,7 +14,7 @@ class TranslateViewModel {
 
     // MARK: - Dependencies
     var translateService: TranslateService!
-    var historyService: HistoryService!
+    var favouritesService: FavouritesService!
     var coordinator: TranslateCoordinator!
 
     // MARK: - Input

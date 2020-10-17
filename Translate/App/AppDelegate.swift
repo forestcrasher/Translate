@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         container.register(TranslateService.self) { resolver in
             return TranslateService(authorizationService: resolver.resolve(AuthorizationService.self))
         }
-        container.register(HistoryService.self) { _ in HistoryService() }
+        container.register(FavouritesService.self) { _ in FavouritesService() }
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

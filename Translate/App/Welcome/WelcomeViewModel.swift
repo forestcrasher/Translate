@@ -18,7 +18,7 @@ class WelcomeViewModel {
     struct Input {
         
         let showTranslate: Signal<Void>
-        let showHistory: Signal<Void>
+        let showFavourites: Signal<Void>
     }
     
     // MARK: - Init
@@ -33,9 +33,9 @@ class WelcomeViewModel {
             })
             .disposed(by: disposeBag)
         
-        input.showHistory
+        input.showFavourites
             .emit(onNext: { [unowned self] in
-                self.coordinator.showHistory()
+                self.coordinator.showFavourites()
             })
             .disposed(by: disposeBag)
     }

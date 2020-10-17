@@ -16,7 +16,7 @@ class WelcomeViewController: UIViewController {
 
     // MARK: - Outlets
     @IBOutlet private weak var translateButton: ShapeButton!
-    @IBOutlet private weak var historyButton: ShapeButton!
+    @IBOutlet private weak var favouritesButton: ShapeButton!
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -36,7 +36,7 @@ class WelcomeViewController: UIViewController {
         
         viewModel.setup(with: WelcomeViewModel.Input(
             showTranslate: translateButton.rx.tap.asSignal(),
-            showHistory: historyButton.rx.tap.asSignal()
+            showFavourites: favouritesButton.rx.tap.asSignal()
         ))
     }
 }

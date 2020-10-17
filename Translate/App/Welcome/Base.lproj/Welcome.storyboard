@@ -73,7 +73,7 @@ sentences based on Yandex.Cloud</string>
                                     <constraint firstAttribute="height" constant="50" id="loJ-Bc-eCR"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                <state key="normal" title="History">
+                                <state key="normal" title="Favourites">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
@@ -111,7 +111,7 @@ sentences based on Yandex.Cloud</string>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="historyButton" destination="thY-De-7wR" id="py9-J5-iLv"/>
+                        <outlet property="favouritesButton" destination="thY-De-7wR" id="py9-J5-iLv"/>
                         <outlet property="translateButton" destination="dGH-hr-u8B" id="jPd-iU-sMQ"/>
                     </connections>
                 </viewController>
@@ -125,7 +125,7 @@ sentences based on Yandex.Cloud</string>
             <size key="intrinsicContentSize" width="74" height="33"/>
         </designable>
         <designable name="thY-De-7wR">
-            <size key="intrinsicContentSize" width="58" height="33"/>
+            <size key="intrinsicContentSize" width="83" height="33"/>
         </designable>
     </designables>
     <resources>
